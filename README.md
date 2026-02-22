@@ -1,139 +1,183 @@
-# DCII Framework — Decision Crisis Immunization Infrastructure
+# Decision Governance Infrastructure (DGI)
+
+## A Vendor-Neutral Framework for Institutional Decision Accountability
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![Standards Track: ISO/IEC JTC 1/SC 42](https://img.shields.io/badge/Standards_Track-ISO%2FIEC_JTC_1%2FSC_42-blue)](docs/ISO-GAPS-IN-EXISTING-STANDARDS.md)
 
-**Version 2.1 | February 2026**
+**Version 2.0 | February 2026**
 
-> *The open standard for auditable AI governance.*
-
----
-
-## What is DCII?
-
-The **Decision Crisis Immunization Infrastructure (DCII)** is a framework for generating cryptographically verifiable evidence trails for AI-assisted decisions. It enables organizations to survive adversarial scrutiny — litigation, regulatory investigation, or public inquiry — by proving:
-
-1. **When** information was known (Discovery-Time Proof)
-2. **What** was considered (Deliberation Capture)
-3. **Who** decided and why (Override Accountability)
-
-DCII is built on **9 measurable primitives** that collectively produce the **Institutional Immune System Score (IISS™)** — a 0–1000 metric quantifying organizational resilience to decision-related crises.
+> For implementation details, API specifications, and production deployment guidance, see [README.Implementation.md](README.Implementation.md).
 
 ---
 
-## The 9 Primitives
+## Overview
 
-| # | Primitive | The Question It Answers |
-|---|-----------|------------------------|
-| P1 | **Discovery-Time Proof** | "When did you know?" |
-| P2 | **Deliberation Capture** | "What did you consider?" |
-| P3 | **Override Accountability** | "Who decided — and why?" |
-| P4 | **Continuity Memory** | "Is knowledge preserved?" |
-| P5 | **Drift Detection** | "Are you still compliant?" |
-| P6 | **Cognitive Bias Mitigation** | "Did you challenge assumptions?" |
-| P7 | **Quantum-Resistant Integrity** | "Is the proof future-proof?" |
-| P8 | **Synthetic Media Authentication** | "Is the evidence authentic?" |
-| P9 | **Cross-Jurisdiction Compliance** | "Did you comply everywhere?" |
+Decision Governance Infrastructure (DGI) defines a vendor-neutral framework for treating institutional decisions as auditable lifecycle artifacts. The framework introduces governance primitives that enable organizations to preserve procedural integrity, decision provenance, and evidentiary continuity under regulatory, legal, or adversarial scrutiny.
+
+DGI complements existing governance standards — including ISO 31000:2018 (Risk management), ISO 15489-1:2016 (Records management), and ISO/IEC 42001:2023 (AI management systems) — by addressing a specific gap: **no existing standard defines a structured evidence infrastructure for the decision act itself.**
 
 ---
 
-## Repository Structure
+## Motivation
 
-```
-/docs
-  DCII_Framework_v2.1.md              — White paper (full framework specification)
-  DGI_Framework_v2.md                 — Decision Governance Intelligence standards
-  primitive-specifications.md         — Detailed specification for each primitive
-  compliance-mapping.md               — Regulation-to-primitive mapping
-  ISO-GAPS-IN-EXISTING-STANDARDS.md   — Gap analysis vs. ISO 42001, 38507, 23894, NIST
-  GLOBAL-REGULATORY-EQUIVALENCE.md    — International applicability (23 jurisdictions)
-  NON-DUPLICATION-PROOF.md            — Non-duplication analysis for ISO NP submission
-  SCOPE-BOUNDARIES.md                 — Where DGI stops and adjacent standards begin
-  DGI-Contributors.md                 — Expert endorsement register & contributor guide
+Modern institutions face increasing accountability requirements for AI-assisted decisions. The EU AI Act (Regulation (EU) 2024/1689), the NIST AI Risk Management Framework, and ISO/IEC 42001:2023 all establish governance obligations — yet none prescribe how the procedural lineage of a decision is captured, preserved, and reconstructed when challenged.
 
-/schemas
-  decision-packet.json                — JSON Schema for Decision Packets
-  regulators-receipt.json             — JSON Schema for Regulator's Receipt™
-  iiss-scoring.json                   — JSON Schema for IISS scoring
+DGI addresses this gap by formalizing **five governance primitives** that represent the irreducible evidentiary requirements for decision reconstruction:
 
-/examples
-  sample-decision.json                — Example decision packet
-  integration-guide.md                — Step-by-step integration guide
-
-/api
-  api-spec.yaml                       — OpenAPI 3.0 specification (59 endpoints)
-  webhook-spec.md                     — Webhook event documentation
-```
+| Primitive | Name | Governance Question | Adjacent Standards |
+|-----------|------|---------------------|-------------------|
+| A | **Context Capture** | What information was available at decision time? | ISO 15489-1, EU AI Act Art. 12 |
+| B | **Deliberation Traceability** | What alternatives were considered and why? | NIST AI RMF Map function |
+| C | **Override Accountability** | Who made the final decision and on what basis? | ISO/IEC 42001 A.8.4, EU AI Act Art. 14 |
+| D | **Evidence Integrity** | Can the record be proven unaltered? | ISO/IEC 27001 A.8.10, eIDAS |
+| E | **Drift Detection** | Has the decision context changed since resolution? | ISO 31000 Clause 6.7, NIST AI RMF Manage |
 
 ---
 
-## IISS™ Certification Bands
+## Framework Specification
 
-| Range | Band | Interpretation |
-|:-----:|------|---------------|
-| 801–1000 | **Exceptional** | Crisis-immune. >95% confidence under adversarial scrutiny. |
-| 601–800 | **Resilient** | Strong coverage, minor gaps. Insurance discount eligible. |
-| 401–600 | **Developing** | Core capabilities in place. Advanced primitive gaps remain. |
-| 201–400 | **Vulnerable** | Partial coverage. High regulatory/litigation exposure. |
-| 0–200 | **Critical** | Fundamental gaps. Cannot demonstrate basic decision governance. |
+The full framework is defined in:
 
----
+- **[DGI Framework v1.0](DGI-Framework-v1.0.md)** — The core specification: principles, primitives, decision lifecycle architecture, evidence model, governance architecture, and standards alignment (with in-text citations to ISO standards and academic literature)
 
-## Regulatory Coverage
+### Decision Lifecycle
 
-DCII maps to the following regulatory frameworks:
+DGI defines a five-phase decision lifecycle, each producing governance artifacts:
 
-- **EU AI Act** — Articles 12, 13, 14, 52, 61
-- **DORA** — Articles 5, 11, 17, 28
-- **NIST AI RMF** — Govern, Map, Measure, Manage functions
-- **GDPR** — Articles 32, 44–50
-- **HIPAA** — §164.312
-- **Basel III** — Operational risk requirements
-- **SOC2** — Trust services criteria
-- **CMMC** — Cybersecurity maturity model
-- **FedRAMP** — Federal risk authorization
-- **ISO 27001** — Information security management
+**Initiation → Deliberation → Resolution → Preservation → Reconstruction**
 
-See [`docs/compliance-mapping.md`](docs/compliance-mapping.md) for the complete primitive-to-regulation matrix.
+![Decision Lifecycle](docs/diagrams/decision-lifecycle.svg)
+
+### Governance Architecture
+
+![Governance Architecture](docs/diagrams/governance-architecture.svg)
 
 ---
 
-## Reference Implementation
+## Relationship to DCII
 
-The production reference implementation of DCII is available at [datacendia.com](https://datacendia.com).
+The **Decision Crisis Immunization Infrastructure (DCII)** is the reference implementation of DGI. The relationship is analogous to HTTP (protocol) and NGINX (server), or SQL (language standard) and PostgreSQL (engine).
 
-The Datacendia platform implements all 9 primitives through:
-- **6 production services** backed by **15 PostgreSQL tables**
-- **59 REST API endpoints** under `/api/v1/dcii/`
-- **IISS™ scoring engine** with real-time assessment
-- **Regulator's Receipt™** export (PDF, JSON, XML)
+| | DGI (This Framework) | DCII (Reference Implementation) |
+|---|---|---|
+| **Nature** | Vendor-neutral specification | Production implementation |
+| **Primitives** | 5 core (A–E) | 9 total (P1–P9), extending DGI with 4 advanced capabilities |
+| **Scoring** | Maturity index (DGMI, 5 levels) | IISS™ (0–1000 quantitative metric) |
+| **Technology** | Implementation-agnostic | PostgreSQL, REST API, cryptographic signing |
+| **Audience** | Standards bodies, governance architects | Engineering teams, compliance implementers |
+
+For implementation details, see [README.Implementation.md](README.Implementation.md).
+
+---
+
+## Alignment with Existing Standards
+
+DGI is designed to complement — not replace — existing governance structures:
+
+| Standard | DGI Relationship |
+|----------|-----------------|
+| **ISO 31000:2018** | DGI preserves evidence of how risk-informed decisions were made; ISO 31000 governs the risk assessment itself |
+| **ISO 15489-1:2016** | DGI extends records management principles to the decision lifecycle |
+| **ISO/IEC 42001:2023** | DGI provides the decision evidence layer that ISO 42001 references but does not specify |
+| **ISO/IEC 38507:2022** | DGI operationalizes the AI governance principles ISO 38507 establishes at the board level |
+| **ISO/IEC 23894:2023** | DGI captures the decision artifacts that AI risk assessments produce |
+| **NIST AI RMF** | DGI maps to Govern, Map, Measure, and Manage functions |
+| **W3C PROV-DM** | DGI's evidence model aligns with W3C provenance data model semantics |
+| **W3C DPV** | DGI decision artifacts may reference Data Privacy Vocabulary terms for privacy-relevant decisions |
+
+---
+
+## Comparison to Similar Works
+
+The following table positions DGI relative to comparable open governance frameworks and specifications:
+
+| Dimension | DGI | W3C DPV | NIST AI RMF | ISO/IEC 42001 | Generic GRC Tools |
+|-----------|-----|---------|-------------|---------------|-------------------|
+| **Focus** | Decision evidence infrastructure | Privacy vocabulary | AI risk lifecycle | AI management system | Operational compliance |
+| **Decision-level artifacts** | Yes (core purpose) | No (data-level) | Partial (guidance) | Partial (control objectives) | No |
+| **Formal primitive model** | Yes (5 primitives) | Yes (vocabulary terms) | Yes (4 functions) | Yes (controls annex) | Varies |
+| **Lifecycle architecture** | Yes (5 phases) | No | Partial | Partial | No |
+| **Vendor-neutral** | Yes | Yes | Yes | Yes | Varies |
+| **Quantitative scoring** | Yes (DGMI / IISS™) | No | No | No (binary certification) | Varies |
+| **Evidence reconstruction** | Yes (core capability) | No | No | No | No |
+| **Standards submission track** | ISO/IEC JTC 1/SC 42 | W3C Community Group | NIST publication | Published ISO standard | N/A |
+| **Complementary to DGI** | — | Yes | Yes | Yes | Possible |
+
+**Key differentiator:** DGI is the only framework that defines decision evidence as a first-class artifact with a structured lifecycle, measurable primitives, and reconstruction capability. Adjacent standards govern risk, privacy, or AI systems — but not the decision act itself.
 
 ---
 
 ## ISO Standardization Track
 
-DGI is being prepared for submission to **ISO/IEC JTC 1/SC 42** (Artificial Intelligence) as a New Work Item Proposal (NP). The following documents support the submission:
+DGI is being prepared for submission to **ISO/IEC JTC 1/SC 42** (Artificial Intelligence) as a New Work Item Proposal (NP). Supporting documents:
 
-- [**Gaps in Existing Standards**](docs/ISO-GAPS-IN-EXISTING-STANDARDS.md) — Why no existing ISO standard covers decision evidence artifacts
-- [**Global Regulatory Equivalence**](docs/GLOBAL-REGULATORY-EQUIVALENCE.md) — Mapping to 23 jurisdictions across 7 regions (not euro/US-centric)
-- [**Non-Duplication Proof**](docs/NON-DUPLICATION-PROOF.md) — Systematic comparison against 14 existing standards
-- [**Scope Boundaries**](docs/SCOPE-BOUNDARIES.md) — Where DGI stops and ISO 42001/38507/23894 begin
-- [**Contributors**](docs/DGI-Contributors.md) — Expert endorsement register (seeking 5+ countries)
+| Document | Purpose |
+|----------|---------|
+| [Gaps in Existing Standards](docs/ISO-GAPS-IN-EXISTING-STANDARDS.md) | Demonstrates that no existing ISO standard covers decision evidence artifacts |
+| [Global Regulatory Equivalence](docs/GLOBAL-REGULATORY-EQUIVALENCE.md) | Maps DGI to 23 jurisdictions across 7 regions |
+| [Non-Duplication Proof](docs/NON-DUPLICATION-PROOF.md) | Systematic comparison against 14 existing standards |
+| [Scope Boundaries](docs/SCOPE-BOUNDARIES.md) | Defines where DGI stops and ISO 42001/38507/23894 begin |
+| [Contributors](docs/DGI-Contributors.md) | Expert endorsement register (seeking 5+ countries) |
+| [Standards Body Engagement](docs/standards-body-engagement.md) | Engagement strategy for ISO national bodies |
 
 > **DGI is not a risk management system. DGI is a decision evidence infrastructure specification.**
 
 ---
 
-## Quick Start
+## Repository Contents
 
-1. Review the [White Paper](docs/DCII_Framework_v2.1.md) for full framework specification
-2. Review [Primitive Specifications](docs/primitive-specifications.md) for implementation requirements
-3. Use the [JSON Schemas](schemas/) to validate your data structures
-4. Follow the [Integration Guide](examples/integration-guide.md) for step-by-step implementation
-5. Reference the [API Spec](api/api-spec.yaml) for the REST API surface
+```
+DGI-Framework-v1.0.md                — Core DGI framework specification (this repository's primary document)
+README.md                            — Standards / academic overview (this file)
+README.Implementation.md             — DCII implementation details, API, and deployment
+
+/docs
+  DCII_Framework_v2.1.md             — DCII white paper (reference implementation specification)
+  DGI_Framework_v2.md                — DGI v2 extended specification
+  DGI-TR-v1.0.md                     — DGI Technical Report v1.0
+  primitive-specifications.md        — Detailed specification for each primitive
+  compliance-mapping.md              — Regulation-to-primitive matrix
+  ISO-GAPS-IN-EXISTING-STANDARDS.md  — Gap analysis vs. 14 ISO standards
+  GLOBAL-REGULATORY-EQUIVALENCE.md   — 23-jurisdiction applicability mapping
+  NON-DUPLICATION-PROOF.md           — Non-duplication analysis for ISO NP
+  SCOPE-BOUNDARIES.md                — Scope boundary definitions
+  DGI-Contributors.md                — Expert endorsement register
+  standards-body-engagement.md       — ISO national body engagement strategy
+  /diagrams
+    decision-lifecycle.svg           — Decision lifecycle diagram
+    governance-architecture.svg      — Governance architecture diagram
+
+/schemas
+  decision-packet.json               — JSON Schema for Decision Packets
+  regulators-receipt.json            — JSON Schema for Regulator's Receipt™
+  iiss-scoring.json                  — JSON Schema for IISS scoring
+
+/examples
+  sample-decision.json               — Example decision packet
+  integration-guide.md               — Step-by-step integration guide
+
+/api
+  api-spec.yaml                      — OpenAPI 3.0 specification (59 endpoints)
+  webhook-spec.md                    — Webhook event documentation
+```
 
 ---
 
 ## Citation
+
+```bibtex
+@techreport{rainey2026dgi,
+  title     = {Decision Governance Infrastructure: A Vendor-Neutral Framework for Institutional Decision Accountability},
+  author    = {Rainey, Stuart},
+  year      = {2026},
+  version   = {2.0},
+  institution = {Datacendia, LLC},
+  url       = {https://github.com/datacendia/decision-governance-infrastructure}
+}
+```
+
+For the DCII reference implementation:
 
 ```bibtex
 @techreport{rainey2026dcii,
@@ -156,4 +200,4 @@ You are free to share and adapt this material for any purpose, including commerc
 
 ---
 
-**Datacendia, LLC** — *Making AI decisions provable, auditable, and defensible.*
+**Datacendia, LLC** — *Decision Governance Infrastructure*

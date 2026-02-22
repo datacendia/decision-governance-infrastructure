@@ -1,6 +1,6 @@
 # Decision Crisis Immunization Infrastructure (DCII): A Framework for Auditable AI Governance
 
-**Version 2.0 | February 2026**
+**Version 2.1 | February 2026**
 
 **Authors:**
 Stuart Rainey, Founder & Chief Architect, Datacendia, LLC.

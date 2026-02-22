@@ -21,11 +21,11 @@ This framework is published as a conceptual contribution to institutional govern
 
 ### Abstract
 
-Decision Governance Infrastructure (DGI) defines a vendor-neutral framework for treating institutional decisions as auditable lifecycle artifacts. The framework introduces governance primitives enabling organizations to preserve procedural integrity, decision provenance, and evidentiary continuity under scrutiny. DGI complements existing governance and compliance systems by operationalizing decision traceability without prescribing specific technologies.
+Decision Governance Infrastructure (DGI) defines a vendor-neutral framework for treating institutional decisions as auditable lifecycle artifacts. The framework introduces governance primitives enabling organizations to preserve procedural integrity, decision provenance, and evidentiary continuity under scrutiny. DGI complements existing governance and compliance systems — including risk management (ISO 31000:2018), records management (ISO 15489-1:2016), and AI management systems (ISO/IEC 42001:2023) — by operationalizing decision traceability without prescribing specific technologies. While adjacent standards address risk treatment, information security, and AI system lifecycle management, none define a structured evidence infrastructure for the decision act itself (see Section 7).
 
 ### Scope
 
-This framework applies to institutional decision environments where auditability, accountability, and reconstruction capability are required. It is implementation-agnostic and suitable for public or private sector governance contexts.
+This framework applies to institutional decision environments where auditability, accountability, and reconstruction capability are required, consistent with the governance objectives of ISO 37000:2021 (Governance of organizations) and the accountability principles of the OECD AI Principles (2019). It is implementation-agnostic and suitable for public or private sector governance contexts.
 
 ### Audience
 
@@ -73,9 +73,9 @@ Rainey, Stuart. *Decision Governance Infrastructure (DGI): A Vendor-Neutral Fram
 
 ## Executive Overview
 
-Modern institutions increasingly operate in environments where consequential decisions must withstand regulatory, legal, and adversarial scrutiny. Despite investments in analytics and compliance tooling, many organizations lack formal structures for preserving the procedural lineage of decision formation.
+Modern institutions increasingly operate in environments where consequential decisions must withstand regulatory, legal, and adversarial scrutiny [1]. Despite investments in analytics and compliance tooling, many organizations lack formal structures for preserving the procedural lineage of decision formation. The EU AI Act (Regulation (EU) 2024/1689) and the NIST AI Risk Management Framework [2] both require demonstrable governance of AI-assisted decisions, yet neither prescribes a structured evidence architecture for the decision act itself.
 
-Decision Governance Infrastructure (DGI) treats decisions as auditable lifecycle artifacts. The framework defines governance primitives enabling context capture, deliberation traceability, override accountability, evidence integrity, and drift detection.
+Decision Governance Infrastructure (DGI) treats decisions as auditable lifecycle artifacts. The framework defines governance primitives enabling context capture, deliberation traceability, override accountability, evidence integrity, and drift detection — drawing on established principles from records management (ISO 15489-1:2016 [3]), risk management (ISO 31000:2018 [4]), and information security governance (ISO/IEC 27001:2022 [5]).
 
 DGI complements existing governance and risk frameworks by operationalizing decision provenance without mandating specific technical architectures.
 
@@ -83,7 +83,9 @@ DGI complements existing governance and risk frameworks by operationalizing deci
 
 ## 1. Problem Definition
 
-High-impact decisions often occur across distributed systems where documentation fragments over time. Common institutional weaknesses include incomplete input capture, undocumented overrides, fragmented evidence trails, and post-hoc reconstruction based on memory.
+High-impact decisions often occur across distributed systems where documentation fragments over time [6]. Common institutional weaknesses include incomplete input capture, undocumented overrides, fragmented evidence trails, and post-hoc reconstruction based on memory. Research on organizational decision-making demonstrates that retrospective rationalization — the post-hoc reconstruction of reasoning — is a pervasive institutional risk (Kahneman, Sibony & Sunstein, 2021 [7]).
+
+Existing governance standards address adjacent concerns: ISO/IEC 38507:2022 [8] provides guidance on the governance implications of IT, and ISO/IEC 23894:2023 [9] addresses AI risk management. However, neither defines a structured artifact model for preserving the procedural lineage of how decisions were formed, deliberated, and resolved.
 
 DGI addresses this governance gap by formalizing decision provenance and lifecycle preservation.
 
@@ -91,22 +93,28 @@ DGI addresses this governance gap by formalizing decision provenance and lifecyc
 
 ## 2. Framework Principles
 
-1. Decisions as lifecycle artifacts
-2. Procedural integrity
-3. Evidence survivability
-4. Institutional continuity
+DGI is founded on four principles that extend the accountability and transparency requirements identified in ISO 37000:2021 [10] and the OECD Recommendation on AI (2019) [11]:
+
+1. **Decisions as lifecycle artifacts** — Decisions are treated as first-class records with defined lifecycle phases, consistent with the records management principles of ISO 15489-1:2016 [3]
+2. **Procedural integrity** — The process of decision formation is preserved with the same rigor as the decision outcome, addressing the "process verification" gap identified in AI audit research (Raji et al., 2020 [12])
+3. **Evidence survivability** — Decision artifacts must survive organizational change, system migration, and adversarial scrutiny, extending the business continuity concepts of ISO 22301:2019 [13] to the decision domain
+4. **Institutional continuity** — Governance knowledge persists beyond individual tenure, supporting the knowledge preservation objectives recognized in organizational learning literature (Argote & Miron-Spektor, 2011 [14])
 
 ---
 
 ## 3. Governance Primitives
 
-Primitive A — Context Capture
-Primitive B — Deliberation Traceability
-Primitive C — Override Accountability
-Primitive D — Evidence Integrity
-Primitive E — Drift Detection
+DGI defines five governance primitives. Each maps to a measurable institutional control and addresses a specific evidentiary requirement:
 
-Each primitive corresponds to measurable institutional controls supporting auditability.
+| Primitive | Name | Governance Question | Related Standards |
+|-----------|------|---------------------|-------------------|
+| A | **Context Capture** | What information was available at decision time? | ISO 15489-1 [3], EU AI Act Art. 12 |
+| B | **Deliberation Traceability** | What alternatives were considered and why? | NIST AI RMF Map function [2] |
+| C | **Override Accountability** | Who made the final decision and on what basis? | ISO/IEC 42001 A.8.4 [15], EU AI Act Art. 14 |
+| D | **Evidence Integrity** | Can we prove the record has not been altered? | ISO/IEC 27001 A.8.10 [5], eIDAS Regulation |
+| E | **Drift Detection** | Has the decision context or compliance posture changed since resolution? | ISO 31000 Clause 6.7 [4], NIST AI RMF Manage function [2] |
+
+Each primitive corresponds to measurable institutional controls supporting auditability. The primitive set is intentionally minimal — covering the five irreducible evidentiary requirements for decision reconstruction — while remaining extensible for domain-specific needs (see Section 9).
 
 ---
 
@@ -116,48 +124,19 @@ Initiation → Deliberation → Resolution → Preservation → Reconstruction
 
 Each lifecycle phase produces artifacts supporting verification and reconstruction.
 
-### SVG Draft — Decision Lifecycle Diagram
+### Decision Lifecycle Diagram
 
-```svg
-<svg width="900" height="160" xmlns="http://www.w3.org/2000/svg">
-<style>
-.box { fill:#f5f7fa; stroke:#1f2933; stroke-width:2; }
-.arrow { stroke:#1f2933; stroke-width:2; marker-end:url(#arrow); }
-.label { font-family:Arial; font-size:14px; }
-</style>
-<defs>
-<marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-<polygon points="0 0, 10 3, 0 6" fill="#1f2933"/>
-</marker>
-</defs>
+![Decision Lifecycle: Initiation → Deliberation → Resolution → Preservation → Reconstruction](docs/diagrams/decision-lifecycle.svg)
 
-<rect class="box" x="20" y="40" width="150" height="60"/>
-<text class="label" x="45" y="75">Initiation</text>
-
-<rect class="box" x="200" y="40" width="170" height="60"/>
-<text class="label" x="215" y="75">Deliberation</text>
-
-<rect class="box" x="400" y="40" width="150" height="60"/>
-<text class="label" x="425" y="75">Resolution</text>
-
-<rect class="box" x="580" y="40" width="170" height="60"/>
-<text class="label" x="600" y="75">Preservation</text>
-
-<rect class="box" x="760" y="40" width="180" height="60"/>
-<text class="label" x="780" y="75">Reconstruction</text>
-
-<line class="arrow" x1="170" y1="70" x2="200" y2="70"/>
-<line class="arrow" x1="370" y1="70" x2="400" y2="70"/>
-<line class="arrow" x1="550" y1="70" x2="580" y2="70"/>
-<line class="arrow" x1="750" y1="70" x2="760" y2="70"/>
-</svg>
-```
+*Figure 1: The DGI decision lifecycle. Each phase produces governance artifacts supporting verification and reconstruction.*
 
 ---
 
 ## 5. Evidence and Verification Model
 
-Institutions maintain provenance metadata, contributor attribution, integrity safeguards, and reconstruction pathways. Verification emphasizes procedural transparency over outcome defense.
+Institutions maintain provenance metadata, contributor attribution, integrity safeguards, and reconstruction pathways. This approach aligns with the W3C PROV Data Model (PROV-DM) [16] for representing provenance information and extends it to the institutional decision domain.
+
+Verification emphasizes procedural transparency over outcome defense — a distinction recognized in the algorithmic auditing literature (Metaxa et al., 2021 [17]). The evidentiary model supports both internal governance review and external regulatory inquiry, consistent with the dual-audience requirements identified in ISO/IEC TR 24028:2020 [18] (Overview of trustworthiness in artificial intelligence).
 
 ---
 
@@ -165,54 +144,52 @@ Institutions maintain provenance metadata, contributor attribution, integrity sa
 
 Institutional policy informs lifecycle execution. Governance primitives govern artifact generation and preservation. Evidence repositories enable audit and review functions.
 
-### SVG Draft — Governance Architecture Diagram
+### Governance Architecture Diagram
 
-```svg
-<svg width="700" height="420" xmlns="http://www.w3.org/2000/svg">
-<style>
-.box { fill:#eef2f7; stroke:#1f2933; stroke-width:2; }
-.arrow { stroke:#1f2933; stroke-width:2; marker-end:url(#arrow); }
-.label { font-family:Arial; font-size:14px; }
-</style>
-<defs>
-<marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-<polygon points="0 0, 10 3, 0 6" fill="#1f2933"/>
-</marker>
-</defs>
+![Governance Architecture: Institutional Policy → Lifecycle Engine → Governance Primitives / Evidence Repository / Audit](docs/diagrams/governance-architecture.svg)
 
-<rect class="box" x="220" y="20" width="260" height="60"/>
-<text class="label" x="250" y="55">Institutional Policy</text>
-
-<rect class="box" x="200" y="120" width="300" height="70"/>
-<text class="label" x="235" y="160">Lifecycle Engine</text>
-
-<rect class="box" x="60" y="240" width="180" height="60"/>
-<text class="label" x="75" y="275">Governance Primitives</text>
-
-<rect class="box" x="260" y="240" width="180" height="60"/>
-<text class="label" x="290" y="275">Evidence Repository</text>
-
-<rect class="box" x="470" y="240" width="160" height="60"/>
-<text class="label" x="490" y="275">Audit / Review</text>
-
-<line class="arrow" x1="350" y1="80" x2="350" y2="120"/>
-<line class="arrow" x1="260" y1="190" x2="150" y2="240"/>
-<line class="arrow" x1="350" y1="190" x2="350" y2="240"/>
-<line class="arrow" x1="440" y1="270" x2="470" y2="270"/>
-</svg>
-```
+*Figure 2: The DGI governance architecture. Institutional policy drives lifecycle execution; governance primitives generate artifacts preserved in evidence repositories for audit and review.*
 
 ---
 
 ## 7. Alignment with Existing Governance Structures
 
-DGI supports risk management, audit frameworks, compliance structures, and AI governance initiatives without replacing existing standards.
+DGI is designed to complement — not replace — existing governance standards. The following table maps DGI primitives to adjacent standards, demonstrating non-duplication:
+
+| Standard | Focus | DGI Relationship |
+|----------|-------|-------------------|
+| **ISO 31000:2018** [4] | Risk management process | DGI preserves evidence of how risk-informed decisions were made; ISO 31000 governs the risk assessment itself |
+| **ISO 15489-1:2016** [3] | Records management | DGI extends records management to the decision lifecycle; ISO 15489 provides the archival foundation |
+| **ISO/IEC 42001:2023** [15] | AI management system | DGI provides the decision evidence layer that ISO 42001 references but does not specify |
+| **ISO/IEC 38507:2022** [8] | IT governance | DGI operationalizes the accountability principles ISO 38507 establishes at the board level |
+| **ISO/IEC 23894:2023** [9] | AI risk management | DGI captures the decision artifacts that AI risk assessments produce; ISO 23894 governs the risk methodology |
+| **NIST AI RMF** [2] | AI risk management | DGI maps to Govern, Map, Measure, and Manage functions; provides the evidentiary substrate |
+| **W3C DPV** [19] | Data privacy vocabulary | DGI decision artifacts may reference DPV terms for privacy-relevant decisions; complementary vocabularies |
+
+For a detailed gap analysis demonstrating non-duplication with 14 existing standards, see the companion document [ISO-GAPS-IN-EXISTING-STANDARDS.md](docs/ISO-GAPS-IN-EXISTING-STANDARDS.md).
 
 ---
 
 ## 8. Framework Positioning and Reference Implementation
 
 DGI is vendor-neutral. Implementations may operationalize primitives through diverse architectures. Reference implementations demonstrate realization without redefining framework semantics.
+
+### 8.1 Relationship to DCII
+
+**The Decision Crisis Immunization Infrastructure (DCII) is the reference implementation of the DGI framework.** The relationship is analogous to how HTTP (the protocol specification) relates to NGINX or Apache (server implementations), or how SQL (the language standard) relates to PostgreSQL (a database engine).
+
+| | DGI (Framework) | DCII (Reference Implementation) |
+|---|---|---|
+| **Nature** | Vendor-neutral specification | Production implementation |
+| **Primitives** | 5 core governance primitives (A–E) | 9 measurable primitives (P1–P9), extending DGI's 5 with 4 advanced capabilities |
+| **Scoring** | Defines maturity index (DGMI, 5 levels) | Implements IISS™ (0–1000 quantitative score) |
+| **Technology** | Implementation-agnostic | PostgreSQL, REST API, cryptographic signing |
+| **Audience** | Standards bodies, governance architects | Engineering teams, compliance implementers |
+| **Artifacts** | Conceptual lifecycle model | JSON schemas, OpenAPI spec, database schemas |
+
+DCII extends DGI's five core primitives with four advanced capabilities — Cognitive Bias Mitigation (P6), Quantum-Resistant Integrity (P7), Synthetic Media Authentication (P8), and Cross-Jurisdiction Compliance (P9) — that address emerging governance requirements not yet covered by existing standards.
+
+Organizations may implement DGI through DCII or through independent implementations that satisfy the primitive requirements defined in this framework.
 
 ---
 
@@ -242,7 +219,14 @@ DGI is published as an original governance framework establishing authorship of 
 
 ## 13. Standards Submission Considerations
 
-The framework is structured for compatibility with institutional standards processes and may be harmonized through formal review channels.
+The framework is structured for compatibility with ISO/IEC JTC 1/SC 42 (Artificial Intelligence) processes and may be submitted as a New Work Item Proposal (NP). The submission is supported by:
+
+- **Gap analysis** demonstrating non-duplication with 14 existing ISO standards [8, 9, 15]
+- **Global regulatory equivalence** mapping to 23 jurisdictions across 7 regions
+- **Non-duplication proof** systematic comparison against ISO 42001, 38507, 23894, 31000, and NIST
+- **Scope boundary definition** clarifying where DGI stops and adjacent standards begin
+
+DGI targets the specific gap identified in the current standards landscape: no existing ISO standard defines a structured evidence infrastructure for the decision act itself. ISO 42001 requires organizations to "determine and apply criteria for AI decisions" (A.8.4) but does not prescribe how decision evidence is captured, preserved, or reconstructed.
 
 ---
 
@@ -292,9 +276,17 @@ Illustrative metrics include capture completeness, override auditability, artifa
 
 ## Appendix B — Terminology
 
-Decision artifact — structured lifecycle record
-Procedural integrity — adherence to governance pathways
-Provenance — verifiable lineage of decision formation
+The following terminology is defined for use within DGI. Where applicable, terms align with existing vocabulary standards including ISO 15489-1:2016 [3] and the W3C Data Privacy Vocabulary (DPV) [19].
+
+| Term | Definition | Related Standard |
+|------|-----------|------------------|
+| **Decision artifact** | A structured lifecycle record capturing the context, deliberation, resolution, and provenance of an institutional decision | ISO 15489-1 "record" |
+| **Procedural integrity** | The property that a decision followed its defined governance pathway, verifiable through preserved artifacts | ISO 37000 "accountability" |
+| **Provenance** | The verifiable lineage of decision formation, including inputs, participants, and temporal sequence | W3C PROV-DM [16] |
+| **Decision lifecycle** | The five-phase progression from initiation through reconstruction (see Section 4) | — |
+| **Governance primitive** | A measurable institutional control that produces decision evidence artifacts | — |
+| **Evidence survivability** | The property that decision artifacts remain intact and verifiable across organizational change | ISO 22301 "continuity" |
+| **Drift detection** | The ongoing verification that decision context and compliance posture have not materially changed | ISO 31000 "monitoring and review" |
 
 ---
 
@@ -311,6 +303,52 @@ Level 5 — Governance optimization
 ## Conclusion
 
 Institutional accountability requires demonstrable procedural lineage. DGI enables organizations to preserve decision provenance and withstand scrutiny while maintaining implementation flexibility.
+
+The framework addresses a specific gap in the current standards landscape: while ISO 31000 governs risk management, ISO 15489 governs records, and ISO/IEC 42001 governs AI systems, no existing standard defines a structured evidence infrastructure for the decision act itself. DGI fills this gap with a minimal, extensible primitive set that is vendor-neutral, implementation-agnostic, and compatible with existing governance architectures.
+
+---
+
+# References
+
+[1] European Parliament and Council of the European Union. "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (AI Act)." *Official Journal of the European Union*, 2024.
+
+[2] National Institute of Standards and Technology. "Artificial Intelligence Risk Management Framework (AI RMF 1.0)." NIST AI 100-1, January 2023.
+
+[3] International Organization for Standardization. "ISO 15489-1:2016 — Information and documentation — Records management — Part 1: Concepts and principles." Geneva: ISO, 2016.
+
+[4] International Organization for Standardization. "ISO 31000:2018 — Risk management — Guidelines." Geneva: ISO, 2018.
+
+[5] International Organization for Standardization. "ISO/IEC 27001:2022 — Information security, cybersecurity and privacy protection — Information security management systems — Requirements." Geneva: ISO, 2022.
+
+[6] Mittelstadt, B. D., Allo, P., Taddeo, M., Wachter, S., & Floridi, L. "The ethics of algorithms: Mapping the debate." *Big Data & Society*, 3(2), 2016.
+
+[7] Kahneman, D., Sibony, O., & Sunstein, C. R. *Noise: A Flaw in Human Judgment.* Little, Brown Spark, 2021.
+
+[8] International Organization for Standardization. "ISO/IEC 38507:2022 — Information technology — Governance of IT — Governance implications of the use of artificial intelligence by organizations." Geneva: ISO, 2022.
+
+[9] International Organization for Standardization. "ISO/IEC 23894:2023 — Information technology — Artificial intelligence — Guidance on risk management." Geneva: ISO, 2023.
+
+[10] International Organization for Standardization. "ISO 37000:2021 — Governance of organizations — Guidance." Geneva: ISO, 2021.
+
+[11] Organisation for Economic Co-operation and Development. "Recommendation of the Council on Artificial Intelligence." OECD/LEGAL/0449, 2019.
+
+[12] Raji, I. D., Smart, A., White, R. N., Mitchell, M., Gebru, T., Hutchinson, B., Smith-Loud, J., Theron, D., & Barnes, P. "Closing the AI accountability gap: Defining an end-to-end framework for internal algorithmic auditing." *Proceedings of the 2020 Conference on Fairness, Accountability, and Transparency (FAT*)*, 2020.
+
+[13] International Organization for Standardization. "ISO 22301:2019 — Security and resilience — Business continuity management systems — Requirements." Geneva: ISO, 2019.
+
+[14] Argote, L. & Miron-Spektor, E. "Organizational learning: From experience to knowledge." *Organization Science*, 22(5), 1123–1137, 2011.
+
+[15] International Organization for Standardization. "ISO/IEC 42001:2023 — Information technology — Artificial intelligence — Management system." Geneva: ISO, 2023.
+
+[16] World Wide Web Consortium. "PROV-DM: The PROV Data Model." W3C Recommendation, 30 April 2013. https://www.w3.org/TR/prov-dm/
+
+[17] Metaxa, D., Park, J. S., Landay, J. A., & Hancock, J. "Auditing algorithms: Understanding algorithmic systems from the outside in." *Foundations and Trends in Human-Computer Interaction*, 14(4), 272–344, 2021.
+
+[18] International Organization for Standardization. "ISO/IEC TR 24028:2020 — Information technology — Artificial intelligence — Overview of trustworthiness in artificial intelligence." Geneva: ISO, 2020.
+
+[19] W3C Data Privacy Vocabularies and Controls Community Group. "Data Privacy Vocabulary (DPV)." W3C Community Group Report, 2024. https://w3c.github.io/dpv/dpv/
+
+[20] International Organization for Standardization. "ISO/IEC 42005:2025 — Information technology — Artificial intelligence — AI system impact assessment." Geneva: ISO, 2025.
 
 ---
 

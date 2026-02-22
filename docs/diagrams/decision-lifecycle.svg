@@ -1,0 +1,32 @@
+<svg width="900" height="160" xmlns="http://www.w3.org/2000/svg">
+<style>
+.box { fill:#f5f7fa; stroke:#1f2933; stroke-width:2; }
+.arrow { stroke:#1f2933; stroke-width:2; marker-end:url(#arrow); }
+.label { font-family:Arial; font-size:14px; }
+</style>
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+<polygon points="0 0, 10 3, 0 6" fill="#1f2933"/>
+</marker>
+</defs>
+
+<rect class="box" x="20" y="40" width="150" height="60"/>
+<text class="label" x="45" y="75">Initiation</text>
+
+<rect class="box" x="200" y="40" width="170" height="60"/>
+<text class="label" x="215" y="75">Deliberation</text>
+
+<rect class="box" x="400" y="40" width="150" height="60"/>
+<text class="label" x="425" y="75">Resolution</text>
+
+<rect class="box" x="580" y="40" width="170" height="60"/>
+<text class="label" x="600" y="75">Preservation</text>
+
+<rect class="box" x="760" y="40" width="180" height="60"/>
+<text class="label" x="780" y="75">Reconstruction</text>
+
+<line class="arrow" x1="170" y1="70" x2="200" y2="70"/>
+<line class="arrow" x1="370" y1="70" x2="400" y2="70"/>
+<line class="arrow" x1="550" y1="70" x2="580" y2="70"/>
+<line class="arrow" x1="750" y1="70" x2="760" y2="70"/>
+</svg>
