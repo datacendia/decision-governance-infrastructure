@@ -40,23 +40,28 @@ DCII is built on **9 measurable primitives** that collectively produce the **Ins
 
 ```
 /docs
-  DCII_Framework_v2.1.md        — White paper (full framework specification)
-  DGI_Framework_v2.md           — Decision Governance Intelligence standards
-  primitive-specifications.md   — Detailed specification for each primitive
-  compliance-mapping.md         — Regulation-to-primitive mapping
+  DCII_Framework_v2.1.md              — White paper (full framework specification)
+  DGI_Framework_v2.md                 — Decision Governance Intelligence standards
+  primitive-specifications.md         — Detailed specification for each primitive
+  compliance-mapping.md               — Regulation-to-primitive mapping
+  ISO-GAPS-IN-EXISTING-STANDARDS.md   — Gap analysis vs. ISO 42001, 38507, 23894, NIST
+  GLOBAL-REGULATORY-EQUIVALENCE.md    — International applicability (23 jurisdictions)
+  NON-DUPLICATION-PROOF.md            — Non-duplication analysis for ISO NP submission
+  SCOPE-BOUNDARIES.md                 — Where DGI stops and adjacent standards begin
+  DGI-Contributors.md                 — Expert endorsement register & contributor guide
 
 /schemas
-  decision-packet.json          — JSON Schema for Decision Packets
-  regulators-receipt.json       — JSON Schema for Regulator's Receipt™
-  iiss-scoring.json             — JSON Schema for IISS scoring
+  decision-packet.json                — JSON Schema for Decision Packets
+  regulators-receipt.json             — JSON Schema for Regulator's Receipt™
+  iiss-scoring.json                   — JSON Schema for IISS scoring
 
 /examples
-  sample-decision.json          — Example decision packet
-  integration-guide.md          — Step-by-step integration guide
+  sample-decision.json                — Example decision packet
+  integration-guide.md                — Step-by-step integration guide
 
 /api
-  api-spec.yaml                 — OpenAPI 3.0 specification (59 endpoints)
-  webhook-spec.md               — Webhook event documentation
+  api-spec.yaml                       — OpenAPI 3.0 specification (59 endpoints)
+  webhook-spec.md                     — Webhook event documentation
 ```
 
 ---
@@ -104,6 +109,20 @@ The Datacendia platform implements all 9 primitives through:
 
 ---
 
+## ISO Standardization Track
+
+DGI is being prepared for submission to **ISO/IEC JTC 1/SC 42** (Artificial Intelligence) as a New Work Item Proposal (NP). The following documents support the submission:
+
+- [**Gaps in Existing Standards**](docs/ISO-GAPS-IN-EXISTING-STANDARDS.md) — Why no existing ISO standard covers decision evidence artifacts
+- [**Global Regulatory Equivalence**](docs/GLOBAL-REGULATORY-EQUIVALENCE.md) — Mapping to 23 jurisdictions across 7 regions (not euro/US-centric)
+- [**Non-Duplication Proof**](docs/NON-DUPLICATION-PROOF.md) — Systematic comparison against 14 existing standards
+- [**Scope Boundaries**](docs/SCOPE-BOUNDARIES.md) — Where DGI stops and ISO 42001/38507/23894 begin
+- [**Contributors**](docs/DGI-Contributors.md) — Expert endorsement register (seeking 5+ countries)
+
+> **DGI is not a risk management system. DGI is a decision evidence infrastructure specification.**
+
+---
+
 ## Quick Start
 
 1. Review the [White Paper](docs/DCII_Framework_v2.1.md) for full framework specification
@@ -123,7 +142,7 @@ The Datacendia platform implements all 9 primitives through:
   year      = {2026},
   version   = {2.1},
   institution = {Datacendia, LLC},
-  url       = {https://github.com/datacendia/dcii-framework}
+  url       = {https://github.com/datacendia/decision-governance-infrastructure}
 }
 ```
 
