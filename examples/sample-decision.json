@@ -1,0 +1,172 @@
+{
+  "id": "d7f3a1b2-4c5e-6f7a-8b9c-0d1e2f3a4b5c",
+  "version": "2.1",
+  "organizationId": "org-12345678-abcd-efgh-ijkl-mnopqrstuvwx",
+  "createdAt": "2026-02-22T14:30:00Z",
+  "decision": {
+    "title": "Approve AI-Assisted Loan Underwriting Model v3.2",
+    "description": "Decision to deploy updated machine learning model for consumer loan underwriting. Model trained on 2.1M historical applications with fairness constraints applied.",
+    "category": "compliance",
+    "riskLevel": "high",
+    "status": "decided",
+    "outcome": "Approved with conditions: quarterly bias audit, 6-month sunset review, manual override required for applications >$500K",
+    "rationale": "Model demonstrates 12% improvement in default prediction accuracy while maintaining disparate impact ratio within regulatory thresholds. Council identified anchoring bias in initial risk assessment — mitigated via blind re-evaluation. Dissenting CISO opinion on data residency preserved."
+  },
+  "deliberation": {
+    "sessionId": "sess-98765432-dcba-hgfe-lkji-xwvutsrqponm",
+    "agents": [
+      {
+        "id": "agent-cfo",
+        "role": "CFO",
+        "perspective": "Financial risk and return analysis. Model improves loss ratios by estimated $4.2M annually. Recommends deployment with enhanced monitoring."
+      },
+      {
+        "id": "agent-ciso",
+        "role": "CISO",
+        "perspective": "Security and data governance concerns. Training data includes EU citizen records — GDPR Article 22 automated decision-making safeguards required. Data residency conflict between US and EU processing."
+      },
+      {
+        "id": "agent-legal",
+        "role": "General Counsel",
+        "perspective": "Regulatory compliance assessment. ECOA and fair lending obligations met based on disparate impact testing. Recommends documenting model limitations for examiner readiness."
+      },
+      {
+        "id": "agent-cro",
+        "role": "Chief Risk Officer",
+        "perspective": "Operational risk evaluation. Model concentration risk in certain demographic segments. Stress testing under adverse economic scenarios shows acceptable degradation."
+      }
+    ],
+    "rounds": [
+      {
+        "roundNumber": 1,
+        "messages": [
+          {
+            "agentId": "agent-cfo",
+            "content": "The model's improved accuracy translates to $4.2M in reduced losses annually. NPV positive within 8 months. I recommend immediate deployment to the consumer lending division.",
+            "timestamp": "2026-02-22T14:30:15Z",
+            "reasoning": "Based on backtesting against 18 months of held-out data",
+            "confidenceScore": 0.87
+          },
+          {
+            "agentId": "agent-ciso",
+            "content": "I have concerns about data residency. The training dataset includes 340K EU citizen records processed on US infrastructure. Under GDPR Article 44, this requires either adequacy decisions or appropriate safeguards. I recommend a data localization review before deployment.",
+            "timestamp": "2026-02-22T14:30:45Z",
+            "reasoning": "Cross-border data transfer compliance gap identified",
+            "confidenceScore": 0.92
+          },
+          {
+            "agentId": "agent-legal",
+            "content": "Fair lending analysis is favorable. Disparate impact ratios: gender 0.94, race 0.91, age 0.89 — all within the four-fifths rule threshold. However, I note the age ratio is approaching the boundary and recommend quarterly monitoring.",
+            "timestamp": "2026-02-22T14:31:10Z",
+            "reasoning": "ECOA compliance verified via standard DI testing methodology",
+            "confidenceScore": 0.85
+          },
+          {
+            "agentId": "agent-cro",
+            "content": "Stress testing reveals the model degrades significantly in high-unemployment scenarios (>8%). Default prediction accuracy drops from 94% to 76%. I recommend a circuit breaker that reverts to the previous model if unemployment exceeds 7%.",
+            "timestamp": "2026-02-22T14:31:35Z",
+            "reasoning": "Monte Carlo simulation with 10,000 economic scenarios",
+            "confidenceScore": 0.79
+          }
+        ]
+      }
+    ],
+    "votes": [
+      {
+        "agentId": "agent-cfo",
+        "vote": "approve",
+        "rationale": "Financial benefits outweigh identified risks with proposed safeguards"
+      },
+      {
+        "agentId": "agent-ciso",
+        "vote": "conditional",
+        "rationale": "Approve only after data residency review and EU processing safeguards implemented",
+        "conditions": "Complete GDPR Article 44 assessment and implement data localization for EU records"
+      },
+      {
+        "agentId": "agent-legal",
+        "vote": "approve",
+        "rationale": "Fair lending compliance verified. Quarterly monitoring addresses age ratio concern"
+      },
+      {
+        "agentId": "agent-cro",
+        "vote": "conditional",
+        "rationale": "Approve with unemployment circuit breaker at 7%",
+        "conditions": "Implement automatic model reversion trigger when unemployment rate exceeds 7%"
+      }
+    ],
+    "dissent": [
+      {
+        "agentId": "agent-ciso",
+        "content": "The data residency issue is not a minor compliance gap — it represents a fundamental architectural decision that should have been addressed during model training. Deploying before resolving cross-border transfer mechanisms creates regulatory exposure that could result in GDPR enforcement action. I formally dissent from any deployment timeline that does not include a completed Data Protection Impact Assessment.",
+        "severity": "major",
+        "timestamp": "2026-02-22T14:32:00Z"
+      }
+    ],
+    "alternativesConsidered": [
+      {
+        "description": "Delay deployment 6 months to retrain model on region-specific data",
+        "rejectionRationale": "Would forfeit $2.1M in estimated loss reduction. Quarterly monitoring addresses fairness concerns without full retrain.",
+        "riskAssessment": "Low risk — monitoring catches degradation before material impact"
+      },
+      {
+        "description": "Deploy only for US applicants initially (phased rollout)",
+        "rejectionRationale": "Accepted as a condition — EU deployment deferred pending GDPR assessment",
+        "riskAssessment": "Adopted as mitigation for CISO's data residency concern"
+      }
+    ]
+  },
+  "evidence": {
+    "timestamp": {
+      "internal": {
+        "serverTime": "2026-02-22T14:32:30Z",
+        "ntpSynced": true,
+        "hash": "a3f7b2c1d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1",
+        "signature": "RSA-4096:base64encodedSignature..."
+      },
+      "rfc3161": {
+        "provider": "DigiCert",
+        "token": "base64encodedRFC3161Token...",
+        "certificateChain": "base64encodedCertChain..."
+      }
+    },
+    "override": {
+      "detected": false
+    },
+    "biasAnalysis": {
+      "biasesDetected": [
+        {
+          "biasType": "anchoring",
+          "severity": "medium",
+          "evidence": "CFO's initial $4.2M figure dominated subsequent discussion. No independent financial analysis was performed by other agents.",
+          "mitigationApplied": true
+        }
+      ],
+      "rubberStampDetected": false,
+      "groupthinkDetected": false,
+      "hash": "b4f8c3d2e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2"
+    },
+    "jurisdictions": [
+      {
+        "jurisdiction": "US Federal",
+        "frameworks": ["ECOA", "Dodd-Frank", "GLBA"],
+        "compliant": true,
+        "conflicts": []
+      },
+      {
+        "jurisdiction": "EU",
+        "frameworks": ["GDPR", "EU AI Act"],
+        "compliant": false,
+        "conflicts": ["GDPR Article 44: Cross-border transfer safeguards required for EU citizen training data"]
+      }
+    ]
+  },
+  "integrity": {
+    "hash": "c5f9d4e3f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3",
+    "algorithm": "SHA-256",
+    "classicalSignature": "RSA-4096:base64encodedPacketSignature...",
+    "postQuantumSignature": "Dilithium3:base64encodedPQSignature...",
+    "signedAt": "2026-02-22T14:33:00Z",
+    "signerId": "system:dcii-notary-v2.1"
+  }
+}

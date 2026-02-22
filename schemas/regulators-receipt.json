@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/datacendia/dcii-framework/schemas/regulators-receipt.json",
+  "title": "DCII Regulator's Receipt™",
+  "description": "Schema for the Regulator's Receipt — a court-admissible evidence package proving decision governance compliance.",
+  "type": "object",
+  "required": ["id", "version", "organizationId", "generatedAt", "scope", "iissScore", "primitiveScores", "regulatoryReadiness", "integrity"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique receipt identifier"
+    },
+    "version": {
+      "type": "string",
+      "const": "2.1",
+      "description": "DCII framework version"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "organizationName": {
+      "type": "string"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of receipt generation"
+    },
+    "scope": {
+      "type": "object",
+      "required": ["periodStart", "periodEnd", "decisionsAssessed"],
+      "properties": {
+        "periodStart": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Assessment period start"
+        },
+        "periodEnd": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Assessment period end"
+        },
+        "decisionsAssessed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of decisions in the assessment period"
+        },
+        "jurisdictions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Jurisdictions covered"
+        },
+        "frameworks": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Regulatory frameworks assessed"
+        }
+      }
+    },
+    "iissScore": {
+      "type": "object",
+      "required": ["score", "band", "certificationLevel"],
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Institutional Immune System Score (0–1000)"
+        },
+        "band": {
+          "type": "string",
+          "enum": ["critical", "vulnerable", "developing", "resilient", "exceptional"],
+          "description": "IISS band classification"
+        },
+        "certificationLevel": {
+          "type": "string",
+          "enum": ["none", "bronze", "silver", "gold", "platinum"],
+          "description": "IISS certification level"
+        },
+        "previousScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "Previous assessment score for trend comparison"
+        },
+        "trend": {
+          "type": "string",
+          "enum": ["improving", "stable", "declining"],
+          "description": "Score trend direction"
+        }
+      }
+    },
+    "primitiveScores": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "required": ["primitive", "weight", "score", "maxScore", "normalizedScore"],
+        "properties": {
+          "primitive": {
+            "type": "string",
+            "enum": ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9"]
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable primitive name"
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Primitive weight (0.08–0.15)"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Raw score (sum of 6 controls)"
+          },
+          "maxScore": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Maximum possible score"
+          },
+          "normalizedScore": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000,
+            "description": "Normalized score (0–1000)"
+          },
+          "controls": {
+            "type": "array",
+            "minItems": 6,
+            "maxItems": 6,
+            "items": {
+              "type": "object",
+              "required": ["name", "score", "maxScore"],
+              "properties": {
+                "name": { "type": "string" },
+                "score": { "type": "number", "minimum": 0 },
+                "maxScore": { "type": "number", "minimum": 0 },
+                "status": { "type": "string", "enum": ["passing", "partial", "failing", "not_assessed"] },
+                "gaps": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      },
+      "description": "Individual scores for each of the 9 DCII primitives"
+    },
+    "regulatoryReadiness": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["framework", "score", "ready"],
+        "properties": {
+          "framework": {
+            "type": "string",
+            "description": "Regulatory framework name"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Readiness score (0–100)"
+          },
+          "ready": {
+            "type": "boolean",
+            "description": "Whether the organization meets minimum requirements"
+          },
+          "gaps": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Specific compliance gaps identified"
+          }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "priority": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+          "primitive": { "type": "string" },
+          "description": { "type": "string" },
+          "estimatedImpact": { "type": "number", "description": "Estimated IISS point improvement" }
+        }
+      },
+      "description": "Prioritized recommendations for score improvement"
+    },
+    "integrity": {
+      "type": "object",
+      "required": ["hash", "algorithm", "signedAt"],
+      "properties": {
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of receipt contents (excluding integrity block)"
+        },
+        "algorithm": {
+          "type": "string",
+          "enum": ["SHA-256", "SHA-384", "SHA-512", "SHA3-256"]
+        },
+        "classicalSignature": {
+          "type": "string",
+          "description": "RSA-4096 or ECDSA P-384 signature"
+        },
+        "postQuantumSignature": {
+          "type": "string",
+          "description": "Dilithium or SPHINCS+ signature for long-term validity"
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "signerId": {
+          "type": "string"
+        },
+        "rfc3161Token": {
+          "type": "string",
+          "description": "External timestamp authority token"
+        }
+      }
+    }
+  }
+}

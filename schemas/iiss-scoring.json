@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/datacendia/dcii-framework/schemas/iiss-scoring.json",
+  "title": "DCII IISS Scoring",
+  "description": "Schema for the Institutional Immune System Score (IISS™) — a 0–1000 metric quantifying organizational resilience to decision-related crises.",
+  "type": "object",
+  "required": ["id", "organizationId", "score", "band", "primitives", "calculatedAt", "integrity"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique score identifier"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1000,
+      "description": "Overall IISS score: Σ(NormalizedPrimitiveScore_i × Weight_i)"
+    },
+    "band": {
+      "type": "string",
+      "enum": ["critical", "vulnerable", "developing", "resilient", "exceptional"],
+      "description": "Score band classification"
+    },
+    "certificationLevel": {
+      "type": "string",
+      "enum": ["none", "bronze", "silver", "gold", "platinum"],
+      "description": "Certification level based on score thresholds"
+    },
+    "calculatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "primitives": {
+      "type": "object",
+      "required": ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9"],
+      "properties": {
+        "P1": { "$ref": "#/$defs/primitiveScore", "description": "Discovery-Time Proof (weight: 0.15)" },
+        "P2": { "$ref": "#/$defs/primitiveScore", "description": "Deliberation Capture (weight: 0.15)" },
+        "P3": { "$ref": "#/$defs/primitiveScore", "description": "Override Accountability (weight: 0.12)" },
+        "P4": { "$ref": "#/$defs/primitiveScore", "description": "Continuity Memory (weight: 0.10)" },
+        "P5": { "$ref": "#/$defs/primitiveScore", "description": "Drift Detection (weight: 0.10)" },
+        "P6": { "$ref": "#/$defs/primitiveScore", "description": "Cognitive Bias Mitigation (weight: 0.10)" },
+        "P7": { "$ref": "#/$defs/primitiveScore", "description": "Quantum-Resistant Integrity (weight: 0.10)" },
+        "P8": { "$ref": "#/$defs/primitiveScore", "description": "Synthetic Media Authentication (weight: 0.08)" },
+        "P9": { "$ref": "#/$defs/primitiveScore", "description": "Cross-Jurisdiction Compliance (weight: 0.10)" }
+      }
+    },
+    "regulatoryReadiness": {
+      "type": "object",
+      "properties": {
+        "euAiAct": { "$ref": "#/$defs/readinessScore" },
+        "abaOpinion512": { "$ref": "#/$defs/readinessScore" },
+        "baselIII": { "$ref": "#/$defs/readinessScore" },
+        "gdpr": { "$ref": "#/$defs/readinessScore" },
+        "hipaa": { "$ref": "#/$defs/readinessScore" },
+        "soc2": { "$ref": "#/$defs/readinessScore" },
+        "cmmc": { "$ref": "#/$defs/readinessScore" }
+      }
+    },
+    "insuranceImpact": {
+      "type": "object",
+      "properties": {
+        "premiumModifier": {
+          "type": "string",
+          "enum": ["+40-60% surcharge", "+10-20% surcharge", "standard", "10-25% discount", "20-40% discount"],
+          "description": "Expected premium impact based on score band"
+        },
+        "discountEligible": {
+          "type": "boolean"
+        },
+        "platinumGovernanceTier": {
+          "type": "boolean",
+          "description": "True if score >800 (reduced premiums, lower deductibles, broader coverage)"
+        }
+      }
+    },
+    "benchmarks": {
+      "type": "object",
+      "properties": {
+        "industryAverage": { "type": "number" },
+        "industryMedian": { "type": "number" },
+        "industryTopQuartile": { "type": "number" },
+        "industryName": { "type": "string" },
+        "percentile": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "required": ["hash", "algorithm"],
+      "properties": {
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the score payload"
+        },
+        "algorithm": {
+          "type": "string",
+          "enum": ["SHA-256", "SHA-384", "SHA-512", "SHA3-256"]
+        },
+        "signature": {
+          "type": "string",
+          "description": "Digital signature of the hash"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "primitiveScore": {
+      "type": "object",
+      "required": ["weight", "rawScore", "maxScore", "normalizedScore", "controls"],
+      "properties": {
+        "weight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "rawScore": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Sum of 6 control scores"
+        },
+        "maxScore": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Sum of 6 control max scores"
+        },
+        "normalizedScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000,
+          "description": "(rawScore / maxScore) × 1000"
+        },
+        "weightedContribution": {
+          "type": "number",
+          "description": "normalizedScore × weight (contribution to final IISS)"
+        },
+        "controls": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": ["name", "score", "maxScore"],
+            "properties": {
+              "name": { "type": "string" },
+              "score": { "type": "number", "minimum": 0 },
+              "maxScore": { "type": "number", "minimum": 0 }
+            }
+          }
+        }
+      }
+    },
+    "readinessScore": {
+      "type": "object",
+      "required": ["score", "ready"],
+      "properties": {
+        "score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "ready": { "type": "boolean" },
+        "gaps": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

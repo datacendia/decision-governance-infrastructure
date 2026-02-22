@@ -1,0 +1,893 @@
+openapi: 3.0.3
+info:
+  title: DCII Framework API
+  description: |
+    REST API for the Decision Crisis Immunization Infrastructure (DCII).
+    59 endpoints across 7 service groups implementing 9 measurable primitives
+    for auditable AI governance.
+  version: 2.1.0
+  contact:
+    name: Datacendia
+    url: https://datacendia.com
+    email: api@datacendia.com
+  license:
+    name: CC BY 4.0
+    url: https://creativecommons.org/licenses/by/4.0/
+
+servers:
+  - url: https://api.datacendia.com/api/v1/dcii
+    description: Production
+  - url: https://staging-api.datacendia.com/api/v1/dcii
+    description: Staging
+  - url: http://localhost:3001/api/v1/dcii
+    description: Local development
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: System
+    description: Health and status endpoints
+  - name: IISS
+    description: Institutional Immune System Score (9 endpoints)
+  - name: Bias
+    description: Cognitive Bias Mitigation — P6 (10 endpoints)
+  - name: Media
+    description: Synthetic Media Authentication — P8 (7 endpoints)
+  - name: Jurisdiction
+    description: Cross-Jurisdiction Compliance — P9 (11 endpoints)
+  - name: Timestamp
+    description: Discovery-Time Proof — P1 (10 endpoints)
+  - name: Similarity
+    description: Decision Similarity Engine (10 endpoints)
+
+paths:
+  # ── System ──────────────────────────────────────────────
+  /health:
+    get:
+      tags: [System]
+      summary: Health check
+      security: []
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: ok }
+                  uptime: { type: number }
+                  version: { type: string, example: "2.1.0" }
+
+  /status:
+    get:
+      tags: [System]
+      summary: Detailed system status
+      responses:
+        '200':
+          description: System status with primitive availability
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  primitives:
+                    type: object
+                    properties:
+                      P1: { type: boolean }
+                      P2: { type: boolean }
+                      P3: { type: boolean }
+                      P4: { type: boolean }
+                      P5: { type: boolean }
+                      P6: { type: boolean }
+                      P7: { type: boolean }
+                      P8: { type: boolean }
+                      P9: { type: boolean }
+                  database: { type: string, enum: [connected, disconnected] }
+                  llm: { type: string, enum: [available, unavailable] }
+
+  # ── IISS (9 endpoints) ─────────────────────────────────
+  /iiss/calculate:
+    post:
+      tags: [IISS]
+      summary: Calculate IISS score for an organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [organizationId]
+              properties:
+                organizationId: { type: string, format: uuid }
+                assessmentType: { type: string, enum: [full, quick, specific] }
+                includeRecommendations: { type: boolean, default: true }
+      responses:
+        '200':
+          description: IISS score calculated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IISSScore'
+
+  /iiss/score/{orgId}:
+    get:
+      tags: [IISS]
+      summary: Get latest IISS score for organization
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Latest IISS score
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IISSScore'
+
+  /iiss/score/id/{id}:
+    get:
+      tags: [IISS]
+      summary: Get specific IISS score by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: IISS score
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IISSScore'
+
+  /iiss/history/{orgId}:
+    get:
+      tags: [IISS]
+      summary: Get IISS score history for organization
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Score history array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IISSScore'
+
+  /iiss/scores:
+    get:
+      tags: [IISS]
+      summary: List all IISS scores (paginated)
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+        - name: offset
+          in: query
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: Paginated score list
+
+  /iiss/dimensions:
+    get:
+      tags: [IISS]
+      summary: Get primitive dimension definitions and weights
+      responses:
+        '200':
+          description: 9 primitive definitions with weights
+
+  /iiss/bands:
+    get:
+      tags: [IISS]
+      summary: Get IISS band definitions
+      responses:
+        '200':
+          description: Band thresholds and certification levels
+
+  /iiss/benchmarks:
+    get:
+      tags: [IISS]
+      summary: Get industry benchmarks
+      responses:
+        '200':
+          description: Industry average/median/quartile scores
+
+  /iiss/assessment/{id}:
+    get:
+      tags: [IISS]
+      summary: Get detailed assessment by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Full assessment with per-control scores
+
+  # ── Bias (10 endpoints) ────────────────────────────────
+  /bias/analyze:
+    post:
+      tags: [Bias]
+      summary: Run 12-bias cognitive analysis on a deliberation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [deliberationId, organizationId]
+              properties:
+                deliberationId: { type: string, format: uuid }
+                organizationId: { type: string, format: uuid }
+                analysisDepth: { type: string, enum: [quick, standard, comprehensive] }
+      responses:
+        '200':
+          description: Bias analysis results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BiasAnalysis'
+
+  /bias/analysis/{id}:
+    get:
+      tags: [Bias]
+      summary: Get bias analysis by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Bias analysis
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BiasAnalysis'
+
+  /bias/analyses/{orgId}:
+    get:
+      tags: [Bias]
+      summary: List bias analyses for organization
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Analysis list
+
+  /bias/analyses:
+    get:
+      tags: [Bias]
+      summary: List all bias analyses (paginated)
+      responses:
+        '200':
+          description: Paginated analysis list
+
+  /bias/by-deliberation/{id}:
+    get:
+      tags: [Bias]
+      summary: Get bias analysis for a specific deliberation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Bias analysis for deliberation
+
+  /bias/mitigate/{analysisId}/{biasId}:
+    post:
+      tags: [Bias]
+      summary: Apply mitigation for a detected bias
+      parameters:
+        - name: analysisId
+          in: path
+          required: true
+          schema: { type: string }
+        - name: biasId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                strategy: { type: string, enum: [devils_advocate, blind_reevaluation, premortem, external_review] }
+      responses:
+        '200':
+          description: Mitigation applied
+
+  /bias/accept-risk/{analysisId}/{biasId}:
+    post:
+      tags: [Bias]
+      summary: Accept risk for a detected bias with documented rationale
+      parameters:
+        - name: analysisId
+          in: path
+          required: true
+          schema: { type: string }
+        - name: biasId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rationale]
+              properties:
+                rationale: { type: string }
+      responses:
+        '200':
+          description: Risk accepted and documented
+
+  /bias/report:
+    post:
+      tags: [Bias]
+      summary: Generate bias analysis report
+      responses:
+        '200':
+          description: Report generated
+
+  /bias/report/{id}:
+    get:
+      tags: [Bias]
+      summary: Get bias report by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Bias report
+
+  /bias/definitions:
+    get:
+      tags: [Bias]
+      summary: Get the 12-bias library definitions
+      security: []
+      responses:
+        '200':
+          description: 12 cognitive bias definitions with detection methods
+
+  # ── Timestamp (10 endpoints) ───────────────────────────
+  /timestamp/issue:
+    post:
+      tags: [Timestamp]
+      summary: Issue a cryptographic timestamp (P1)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [data]
+              properties:
+                data: { type: string, description: SHA-256 hash of event data }
+                layers: { type: array, items: { type: string, enum: [internal, rfc3161, blockchain] } }
+                blockchainTarget: { type: string, enum: [bitcoin-mainnet, bitcoin-testnet, ethereum-mainnet, ethereum-goerli, polygon] }
+                referenceId: { type: string }
+                referenceType: { type: string }
+      responses:
+        '201':
+          description: Timestamp token created
+
+  /timestamp/batch:
+    post:
+      tags: [Timestamp]
+      summary: Batch timestamp multiple events
+      responses:
+        '201':
+          description: Batch timestamp created
+
+  /timestamp/verify/{id}:
+    post:
+      tags: [Timestamp]
+      summary: Verify a timestamp token
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Verification result
+
+  /timestamp/token/{id}:
+    get:
+      tags: [Timestamp]
+      summary: Get timestamp token by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Timestamp token
+
+  /timestamp/tokens/{orgId}:
+    get:
+      tags: [Timestamp]
+      summary: List timestamps for organization
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Token list
+
+  /timestamp/tokens:
+    get:
+      tags: [Timestamp]
+      summary: List all timestamps (paginated)
+      responses:
+        '200':
+          description: Paginated token list
+
+  /timestamp/by-reference/{id}:
+    get:
+      tags: [Timestamp]
+      summary: Get timestamps by reference ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Timestamps for reference
+
+  /timestamp/providers:
+    get:
+      tags: [Timestamp]
+      summary: List available TSA providers
+      responses:
+        '200':
+          description: TSA provider list
+
+  /timestamp/stats:
+    get:
+      tags: [Timestamp]
+      summary: Get timestamp statistics
+      responses:
+        '200':
+          description: Timestamp statistics
+
+  /timestamp/batch/{id}:
+    get:
+      tags: [Timestamp]
+      summary: Get batch timestamp status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Batch status
+
+  # ── Media (7 endpoints) ────────────────────────────────
+  /media/sign:
+    post:
+      tags: [Media]
+      summary: Sign media with C2PA provenance (P8)
+      responses:
+        '201':
+          description: Media signed
+
+  /media/analyze/{id}:
+    post:
+      tags: [Media]
+      summary: Run authenticity analysis on media asset
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Analysis results
+
+  /media/asset/{id}:
+    get:
+      tags: [Media]
+      summary: Get media asset by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Media asset
+
+  /media/assets/{orgId}:
+    get:
+      tags: [Media]
+      summary: List media assets for organization
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Asset list
+
+  /media/assets:
+    get:
+      tags: [Media]
+      summary: List all media assets (paginated)
+      responses:
+        '200':
+          description: Paginated asset list
+
+  /media/report/{id}:
+    get:
+      tags: [Media]
+      summary: Get media authenticity report
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Authenticity report
+
+  /media/custody/{id}:
+    post:
+      tags: [Media]
+      summary: Add chain of custody entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Custody entry added
+
+  # ── Jurisdiction (11 endpoints) ────────────────────────
+  /jurisdiction/assess:
+    post:
+      tags: [Jurisdiction]
+      summary: Run cross-jurisdiction compliance assessment (P9)
+      responses:
+        '200':
+          description: Assessment results
+
+  /jurisdiction/assessment/{id}:
+    get:
+      tags: [Jurisdiction]
+      summary: Get assessment by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Assessment
+
+  /jurisdiction/assessments/{orgId}:
+    get:
+      tags: [Jurisdiction]
+      summary: List assessments for organization
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Assessment list
+
+  /jurisdiction/conflicts/{orgId}:
+    get:
+      tags: [Jurisdiction]
+      summary: List regulatory conflicts for organization
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Conflict list
+
+  /jurisdiction/conflicts:
+    get:
+      tags: [Jurisdiction]
+      summary: List all conflicts (paginated)
+      responses:
+        '200':
+          description: Paginated conflict list
+
+  /jurisdiction/conflict/{id}:
+    get:
+      tags: [Jurisdiction]
+      summary: Get conflict details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Conflict details
+
+  /jurisdiction/good-faith/{id}:
+    post:
+      tags: [Jurisdiction]
+      summary: Generate good-faith compliance document
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Good-faith document generated
+
+  /jurisdiction/evidence-packet:
+    post:
+      tags: [Jurisdiction]
+      summary: Generate jurisdiction-specific evidence packet
+      responses:
+        '201':
+          description: Evidence packet generated
+
+  /jurisdiction/evidence-packets/{orgId}:
+    get:
+      tags: [Jurisdiction]
+      summary: List evidence packets for organization
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Evidence packet list
+
+  /jurisdiction/profiles:
+    get:
+      tags: [Jurisdiction]
+      summary: List all jurisdiction profiles (23 jurisdictions)
+      security: []
+      responses:
+        '200':
+          description: Jurisdiction profiles
+
+  /jurisdiction/profile/{jurisdiction}:
+    get:
+      tags: [Jurisdiction]
+      summary: Get specific jurisdiction profile
+      parameters:
+        - name: jurisdiction
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Jurisdiction profile with applicable frameworks
+
+  # ── Similarity (10 endpoints) ──────────────────────────
+  /similarity/search:
+    post:
+      tags: [Similarity]
+      summary: Search for similar historical decisions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [query, organizationId]
+              properties:
+                query: { type: string }
+                organizationId: { type: string, format: uuid }
+                dimensions: { type: array, items: { type: string, enum: [semantic, contextual, structural, outcome, stakeholder, temporal, keyword] } }
+                minStrength: { type: string, enum: [exact, strong, moderate, weak, tangential] }
+                limit: { type: integer, default: 10 }
+      responses:
+        '200':
+          description: Similarity search results
+
+  /similarity/decisions:
+    post:
+      tags: [Similarity]
+      summary: Register a decision for similarity indexing
+      responses:
+        '201':
+          description: Decision registered
+    get:
+      tags: [Similarity]
+      summary: List all indexed decisions (paginated)
+      responses:
+        '200':
+          description: Decision list
+
+  /similarity/decisions/{orgId}:
+    get:
+      tags: [Similarity]
+      summary: List decisions for organization
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Organization decision list
+
+  /similarity/decision/{id}:
+    get:
+      tags: [Similarity]
+      summary: Get decision by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Decision details
+
+  /similarity/decisions/{id}/outcome:
+    put:
+      tags: [Similarity]
+      summary: Update decision outcome (for pattern learning)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                outcome: { type: string }
+                success: { type: boolean }
+                lessonsLearned: { type: string }
+      responses:
+        '200':
+          description: Outcome updated
+
+  /similarity/patterns/{orgId}:
+    post:
+      tags: [Similarity]
+      summary: Detect decision patterns for organization
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Patterns detected
+    get:
+      tags: [Similarity]
+      summary: Get detected patterns
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Pattern list
+
+  /similarity/stats/{orgId}:
+    get:
+      tags: [Similarity]
+      summary: Get similarity engine statistics
+      parameters:
+        - name: orgId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Statistics
+
+  /similarity/result/{id}:
+    get:
+      tags: [Similarity]
+      summary: Get similarity search result by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200':
+          description: Search result
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    IISSScore:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        organizationId: { type: string, format: uuid }
+        score: { type: number, minimum: 0, maximum: 1000 }
+        band: { type: string, enum: [critical, vulnerable, developing, resilient, exceptional] }
+        certificationLevel: { type: string, enum: [none, bronze, silver, gold, platinum] }
+        primitives:
+          type: object
+          properties:
+            P1: { $ref: '#/components/schemas/PrimitiveScore' }
+            P2: { $ref: '#/components/schemas/PrimitiveScore' }
+            P3: { $ref: '#/components/schemas/PrimitiveScore' }
+            P4: { $ref: '#/components/schemas/PrimitiveScore' }
+            P5: { $ref: '#/components/schemas/PrimitiveScore' }
+            P6: { $ref: '#/components/schemas/PrimitiveScore' }
+            P7: { $ref: '#/components/schemas/PrimitiveScore' }
+            P8: { $ref: '#/components/schemas/PrimitiveScore' }
+            P9: { $ref: '#/components/schemas/PrimitiveScore' }
+        calculatedAt: { type: string, format: date-time }
+        integrity:
+          type: object
+          properties:
+            hash: { type: string }
+            signature: { type: string }
+
+    PrimitiveScore:
+      type: object
+      properties:
+        weight: { type: number }
+        rawScore: { type: number }
+        maxScore: { type: number }
+        normalizedScore: { type: number }
+        weightedContribution: { type: number }
+
+    BiasAnalysis:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        deliberationId: { type: string, format: uuid }
+        biasesDetected:
+          type: array
+          items:
+            type: object
+            properties:
+              biasType: { type: string }
+              severity: { type: string, enum: [none, low, medium, high, critical] }
+              evidence: { type: string }
+              mitigationApplied: { type: boolean }
+        rubberStampDetected: { type: boolean }
+        groupthinkDetected: { type: boolean }
+        hash: { type: string }

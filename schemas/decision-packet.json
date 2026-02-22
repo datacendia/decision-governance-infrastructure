@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/datacendia/dcii-framework/schemas/decision-packet.json",
+  "title": "DCII Decision Packet",
+  "description": "Schema for a cryptographically signed decision packet containing deliberation evidence, votes, dissent records, and integrity proofs.",
+  "type": "object",
+  "required": ["id", "version", "organizationId", "decision", "deliberation", "evidence", "integrity"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this decision packet"
+    },
+    "version": {
+      "type": "string",
+      "const": "2.1",
+      "description": "DCII framework version"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Organization that owns this decision"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of packet creation"
+    },
+    "decision": {
+      "type": "object",
+      "required": ["title", "category", "riskLevel", "status"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Human-readable decision title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Full decision description and context"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["strategic", "operational", "compliance", "financial", "personnel", "technology", "legal", "clinical"],
+          "description": "Decision category"
+        },
+        "riskLevel": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low"],
+          "description": "Risk classification"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "deliberating", "decided", "executed", "reviewed"],
+          "description": "Current lifecycle status"
+        },
+        "outcome": {
+          "type": "string",
+          "description": "The decided outcome (populated after decision)"
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Documented rationale for the decision"
+        }
+      }
+    },
+    "deliberation": {
+      "type": "object",
+      "required": ["agents", "rounds", "votes"],
+      "properties": {
+        "sessionId": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Deliberation session identifier"
+        },
+        "agents": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "required": ["id", "role", "perspective"],
+            "properties": {
+              "id": { "type": "string" },
+              "role": { "type": "string", "description": "Agent role (e.g., CFO, CISO, Legal)" },
+              "perspective": { "type": "string", "description": "Agent's analysis perspective" }
+            }
+          },
+          "description": "AI agents that participated (minimum 3 per P2)"
+        },
+        "rounds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["roundNumber", "messages"],
+            "properties": {
+              "roundNumber": { "type": "integer", "minimum": 1 },
+              "messages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["agentId", "content", "timestamp"],
+                  "properties": {
+                    "agentId": { "type": "string" },
+                    "content": { "type": "string" },
+                    "timestamp": { "type": "string", "format": "date-time" },
+                    "reasoning": { "type": "string" },
+                    "confidenceScore": { "type": "number", "minimum": 0, "maximum": 1 }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "votes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["agentId", "vote", "rationale"],
+            "properties": {
+              "agentId": { "type": "string" },
+              "vote": { "type": "string", "enum": ["approve", "reject", "abstain", "conditional"] },
+              "rationale": { "type": "string" },
+              "conditions": { "type": "string", "description": "Conditions if vote is 'conditional'" }
+            }
+          }
+        },
+        "dissent": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["agentId", "content", "severity"],
+            "properties": {
+              "agentId": { "type": "string" },
+              "content": { "type": "string", "description": "The dissenting opinion (non-suppressible)" },
+              "severity": { "type": "string", "enum": ["minor", "moderate", "major", "critical"] },
+              "timestamp": { "type": "string", "format": "date-time" }
+            }
+          },
+          "description": "Protected dissent records (P2: non-suppressible minority views)"
+        },
+        "alternativesConsidered": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string" },
+              "rejectionRationale": { "type": "string" },
+              "riskAssessment": { "type": "string" }
+            }
+          },
+          "description": "Paths not taken, with documented rationale"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "object",
+          "description": "P1: Discovery-Time Proof",
+          "properties": {
+            "internal": {
+              "type": "object",
+              "properties": {
+                "serverTime": { "type": "string", "format": "date-time" },
+                "ntpSynced": { "type": "boolean" },
+                "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                "signature": { "type": "string" }
+              }
+            },
+            "rfc3161": {
+              "type": "object",
+              "properties": {
+                "provider": { "type": "string" },
+                "token": { "type": "string", "description": "Base64-encoded RFC 3161 token" },
+                "certificateChain": { "type": "string" }
+              }
+            },
+            "blockchain": {
+              "type": "object",
+              "properties": {
+                "chain": { "type": "string", "enum": ["bitcoin-mainnet", "bitcoin-testnet", "ethereum-mainnet", "ethereum-goerli", "polygon"] },
+                "transactionId": { "type": "string" },
+                "merkleRoot": { "type": "string" },
+                "explorerUrl": { "type": "string", "format": "uri" }
+              }
+            }
+          }
+        },
+        "override": {
+          "type": "object",
+          "description": "P3: Override Accountability",
+          "properties": {
+            "detected": { "type": "boolean" },
+            "overriddenBy": { "type": "string" },
+            "rationale": { "type": "string" },
+            "authorityLevel": { "type": "string" },
+            "signature": { "type": "string" },
+            "escalated": { "type": "boolean" }
+          }
+        },
+        "biasAnalysis": {
+          "type": "object",
+          "description": "P6: Cognitive Bias Mitigation",
+          "properties": {
+            "biasesDetected": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "biasType": { "type": "string" },
+                  "severity": { "type": "string", "enum": ["none", "low", "medium", "high", "critical"] },
+                  "evidence": { "type": "string" },
+                  "mitigationApplied": { "type": "boolean" }
+                }
+              }
+            },
+            "rubberStampDetected": { "type": "boolean" },
+            "groupthinkDetected": { "type": "boolean" },
+            "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+          }
+        },
+        "jurisdictions": {
+          "type": "array",
+          "description": "P9: Cross-Jurisdiction Compliance",
+          "items": {
+            "type": "object",
+            "properties": {
+              "jurisdiction": { "type": "string" },
+              "frameworks": { "type": "array", "items": { "type": "string" } },
+              "compliant": { "type": "boolean" },
+              "conflicts": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "required": ["hash", "algorithm"],
+      "properties": {
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the entire packet (excluding this field)"
+        },
+        "algorithm": {
+          "type": "string",
+          "enum": ["SHA-256", "SHA-384", "SHA-512", "SHA3-256"],
+          "description": "Hash algorithm used"
+        },
+        "classicalSignature": {
+          "type": "string",
+          "description": "RSA-4096 or ECDSA P-384 signature"
+        },
+        "postQuantumSignature": {
+          "type": "string",
+          "description": "P7: Dilithium or SPHINCS+ signature"
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "signerId": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
