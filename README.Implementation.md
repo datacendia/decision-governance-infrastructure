@@ -4,30 +4,30 @@
 
 **Version 2.1 | February 2026**
 
-> *Production reference implementation of the Decision Governance Infrastructure (DGI) framework.*
+> *Production reference implementation of the Datacendia Decision Governance Infrastructure (DDGI) framework.*
 
 ---
 
 ## What is DCII?
 
-The **Decision Crisis Immunization Infrastructure (DCII)** is the reference implementation of the [DGI framework](DGI-Framework-v1.0.md). It provides a production-ready system for generating cryptographically verifiable evidence trails for AI-assisted decisions.
+The **Decision Crisis Immunization Infrastructure (DCII)** is the reference implementation of the [DDGI framework](DGI-Framework-v1.0.md). It provides a production-ready system for generating cryptographically verifiable evidence trails for AI-assisted decisions.
 
-DCII extends DGI's five core governance primitives (A–E) with four advanced capabilities, yielding **9 measurable primitives** that collectively produce the **Institutional Immune System Score (IISS™)** — a 0–1000 metric quantifying organizational resilience to decision-related crises.
+DCII extends DDGI's five core governance primitives (A–E) with four advanced capabilities, yielding **9 measurable primitives** that collectively produce the **Institutional Immune System Score (IISS™)** — a 0–1000 metric quantifying organizational resilience to decision-related crises.
 
 > For the standards-track framework specification, see [README.md](README.md).
-> For the relationship between DGI and DCII, see [DGI Framework §8.1](DGI-Framework-v1.0.md#81-relationship-to-dcii).
+> For the relationship between DDGI and DCII, see [DDGI Framework §8.1](DGI-Framework-v1.0.md#81-relationship-to-dcii).
 
 ---
 
 ## The 9 Primitives
 
-| # | Primitive | The Question It Answers | DGI Origin |
-|---|-----------|------------------------|------------|
-| P1 | **Discovery-Time Proof** | "When did you know?" | Primitive A (Context Capture) |
-| P2 | **Deliberation Capture** | "What did you consider?" | Primitive B (Deliberation Traceability) |
-| P3 | **Override Accountability** | "Who decided — and why?" | Primitive C (Override Accountability) |
-| P4 | **Continuity Memory** | "Is knowledge preserved?" | Primitive D (Evidence Integrity) |
-| P5 | **Drift Detection** | "Are you still compliant?" | Primitive E (Drift Detection) |
+| # | Primitive | The Question It Answers | DDGI Origin |
+|---|-----------|------------------------|-------------|
+| P1 | **Discovery-Time Proof** | "When did you know?" | DDGI Primitive A (Context Capture) |
+| P2 | **Deliberation Capture** | "What did you consider?" | DDGI Primitive B (Deliberation Traceability) |
+| P3 | **Override Accountability** | "Who decided — and why?" | DDGI Primitive C (Override Accountability) |
+| P4 | **Continuity Memory** | "Is knowledge preserved?" | DDGI Primitive D (Evidence Integrity) |
+| P5 | **Drift Detection** | "Are you still compliant?" | DDGI Primitive E (Drift Detection) |
 | P6 | **Cognitive Bias Mitigation** | "Did you challenge assumptions?" | DCII extension |
 | P7 | **Quantum-Resistant Integrity** | "Is the proof future-proof?" | DCII extension |
 | P8 | **Synthetic Media Authentication** | "Is the evidence authentic?" | DCII extension |
@@ -40,14 +40,14 @@ DCII extends DGI's five core governance primitives (A–E) with four advanced ca
 ```
 /docs
   DCII_Framework_v2.1.md              — White paper (full framework specification)
-  DGI_Framework_v2.md                 — Decision Governance Intelligence standards
+  DGI_Framework_v2.md                 — DDGI v2 extended specification
   primitive-specifications.md         — Detailed specification for each primitive
   compliance-mapping.md               — Regulation-to-primitive mapping
   ISO-GAPS-IN-EXISTING-STANDARDS.md   — Gap analysis vs. ISO 42001, 38507, 23894, NIST
   GLOBAL-REGULATORY-EQUIVALENCE.md    — International applicability (23 jurisdictions)
   NON-DUPLICATION-PROOF.md            — Non-duplication analysis for ISO NP submission
-  SCOPE-BOUNDARIES.md                 — Where DGI stops and adjacent standards begin
-  DGI-Contributors.md                 — Expert endorsement register & contributor guide
+  SCOPE-BOUNDARIES.md                 — Where DDGI stops and adjacent standards begin
+  DGI-Contributors.md                 — DDGI expert endorsement register & contributor guide
 
 /schemas
   decision-packet.json                — JSON Schema for Decision Packets
