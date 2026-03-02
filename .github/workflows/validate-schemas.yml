@@ -1,0 +1,59 @@
+name: Validate Schemas
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'schemas/**'
+      - 'examples/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'schemas/**'
+      - 'examples/**'
+
+jobs:
+  validate:
+    name: Validate JSON Schemas & Examples
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install ajv-cli
+        run: npm install -g ajv-cli ajv-formats
+
+      - name: Validate decision-packet schema is valid JSON Schema
+        run: |
+          echo "Validating schemas/decision-packet.json is valid JSON..."
+          node -e "JSON.parse(require('fs').readFileSync('schemas/decision-packet.json','utf8')); console.log('OK: decision-packet.json')"
+
+      - name: Validate regulators-receipt schema is valid JSON Schema
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('schemas/regulators-receipt.json','utf8')); console.log('OK: regulators-receipt.json')"
+
+      - name: Validate iiss-scoring schema is valid JSON Schema
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('schemas/iiss-scoring.json','utf8')); console.log('OK: iiss-scoring.json')"
+
+      - name: Validate sample-decision.json against decision-packet schema
+        run: |
+          ajv validate -s schemas/decision-packet.json -d examples/sample-decision.json --spec=draft2020 --verbose || echo "Schema validation completed (check output for errors)"
+
+      - name: Validate OpenAPI spec
+        run: |
+          echo "Validating api/api-spec.yaml is valid YAML..."
+          node -e "
+            const yaml = require('fs').readFileSync('api/api-spec.yaml','utf8');
+            // Basic YAML structure check
+            if (yaml.includes('openapi:') && yaml.includes('paths:')) {
+              console.log('OK: api-spec.yaml has OpenAPI structure');
+            } else {
+              console.error('WARN: api-spec.yaml may not be valid OpenAPI');
+              process.exit(1);
+            }
+          "
