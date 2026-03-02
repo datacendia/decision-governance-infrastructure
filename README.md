@@ -69,6 +69,23 @@ The **Decision Crisis Immunization Infrastructure (DCII)** is the reference impl
 
 For implementation details, see [README.Implementation.md](README.Implementation.md).
 
+### Open-Source Implementation
+
+The open-source implementation of DDGI/DCII is available at **[datacendia-core](https://github.com/datacendia/datacendia-core)** (Apache 2.0). It includes:
+
+- **The Council** — Multi-agent deliberation engine with configurable agent panels
+- **Immutable Audit Ledger** — Merkle tree integrity for all decisions
+- **30 Industry Verticals** — Domain-specific agents, compliance frameworks, and decision schemas
+- **Sovereign-First Architecture** — Runs fully air-gapped with local LLM inference
+
+```bash
+# Try it in 60 seconds
+git clone https://github.com/datacendia/datacendia-core.git
+cd datacendia-core
+docker compose -f docker-compose.demo.yml up -d
+# Open http://localhost:5173
+```
+
 ---
 
 ## Alignment with Existing Standards
