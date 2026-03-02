@@ -5,7 +5,7 @@
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Standards Track: ISO/IEC JTC 1/SC 42](https://img.shields.io/badge/Standards_Track-ISO%2FIEC_JTC_1%2FSC_42-blue)](docs/ISO-GAPS-IN-EXISTING-STANDARDS.md)
 
-**Version 2.0 | February 2026**
+**Version 2.0 | March 2026**
 
 > For implementation details, API specifications, and production deployment guidance, see [README.Implementation.md](README.Implementation.md).
 
