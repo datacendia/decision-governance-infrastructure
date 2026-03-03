@@ -1,20 +1,20 @@
-name: Validate Schemas
+# =============================================================================
+# DDGI Schema & Spec Validation CI
+# Validates JSON Schemas, examples, and OpenAPI specification
+# Strengthened: uses ajv for schema validation, js-yaml for OpenAPI parsing
+# =============================================================================
+
+name: Validate Schemas & Specs
 
 on:
   push:
     branches: [main]
-    paths:
-      - 'schemas/**'
-      - 'examples/**'
   pull_request:
     branches: [main]
-    paths:
-      - 'schemas/**'
-      - 'examples/**'
 
 jobs:
   validate:
-    name: Validate JSON Schemas & Examples
+    name: Validate Schemas, Examples & OpenAPI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,36 +24,75 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install ajv-cli
-        run: npm install -g ajv-cli ajv-formats
+      - name: Install validation tools
+        run: npm install -g ajv-cli ajv-formats js-yaml @apidevtools/swagger-cli
 
-      - name: Validate decision-packet schema is valid JSON Schema
+      - name: Validate decision-packet schema (structural)
         run: |
-          echo "Validating schemas/decision-packet.json is valid JSON..."
-          node -e "JSON.parse(require('fs').readFileSync('schemas/decision-packet.json','utf8')); console.log('OK: decision-packet.json')"
-
-      - name: Validate regulators-receipt schema is valid JSON Schema
-        run: |
-          node -e "JSON.parse(require('fs').readFileSync('schemas/regulators-receipt.json','utf8')); console.log('OK: regulators-receipt.json')"
-
-      - name: Validate iiss-scoring schema is valid JSON Schema
-        run: |
-          node -e "JSON.parse(require('fs').readFileSync('schemas/iiss-scoring.json','utf8')); console.log('OK: iiss-scoring.json')"
-
-      - name: Validate sample-decision.json against decision-packet schema
-        run: |
-          ajv validate -s schemas/decision-packet.json -d examples/sample-decision.json --spec=draft2020 --verbose || echo "Schema validation completed (check output for errors)"
-
-      - name: Validate OpenAPI spec
-        run: |
-          echo "Validating api/api-spec.yaml is valid YAML..."
+          echo "--- Validating schemas/decision-packet.json ---"
           node -e "
-            const yaml = require('fs').readFileSync('api/api-spec.yaml','utf8');
-            // Basic YAML structure check
-            if (yaml.includes('openapi:') && yaml.includes('paths:')) {
-              console.log('OK: api-spec.yaml has OpenAPI structure');
-            } else {
-              console.error('WARN: api-spec.yaml may not be valid OpenAPI');
-              process.exit(1);
+            const schema = JSON.parse(require('fs').readFileSync('schemas/decision-packet.json','utf8'));
+            if (!schema['\$schema'] && !schema.type && !schema.properties) {
+              console.error('WARN: Missing JSON Schema structure markers');
             }
+            console.log('OK: decision-packet.json is valid JSON with', Object.keys(schema.properties || {}).length, 'properties');
           "
+
+      - name: Validate regulators-receipt schema (structural)
+        run: |
+          echo "--- Validating schemas/regulators-receipt.json ---"
+          node -e "
+            const schema = JSON.parse(require('fs').readFileSync('schemas/regulators-receipt.json','utf8'));
+            console.log('OK: regulators-receipt.json is valid JSON with', Object.keys(schema.properties || {}).length, 'properties');
+          "
+
+      - name: Validate iiss-scoring schema (structural)
+        run: |
+          echo "--- Validating schemas/iiss-scoring.json ---"
+          node -e "
+            const schema = JSON.parse(require('fs').readFileSync('schemas/iiss-scoring.json','utf8'));
+            console.log('OK: iiss-scoring.json is valid JSON with', Object.keys(schema.properties || {}).length, 'properties');
+          "
+
+      - name: Validate sample-decision against schema (ajv)
+        run: |
+          echo "--- Validating examples/sample-decision.json against schema ---"
+          ajv validate -s schemas/decision-packet.json -d examples/sample-decision.json --spec=draft2020 --verbose
+
+      - name: Validate OpenAPI spec (structural YAML parse)
+        run: |
+          echo "--- Validating api/api-spec.yaml ---"
+          node -e "
+            const yaml = require('js-yaml');
+            const fs = require('fs');
+            const spec = yaml.load(fs.readFileSync('api/api-spec.yaml', 'utf8'));
+            const version = spec.openapi || spec.swagger || 'unknown';
+            const pathCount = Object.keys(spec.paths || {}).length;
+            const schemaCount = Object.keys((spec.components || {}).schemas || {}).length;
+            console.log('OK: OpenAPI ' + version + ' — ' + pathCount + ' paths, ' + schemaCount + ' schemas');
+            if (!spec.openapi) { console.error('ERROR: Missing openapi version field'); process.exit(1); }
+            if (pathCount === 0) { console.error('ERROR: No paths defined'); process.exit(1); }
+          "
+
+      - name: Validate OpenAPI with swagger-cli (full structural validation)
+        run: |
+          swagger-cli validate api/api-spec.yaml || echo "WARN: swagger-cli found issues (non-blocking)"
+        continue-on-error: true
+
+      - name: Check all JSON files are valid
+        run: |
+          echo "--- Checking all JSON files ---"
+          find . -name '*.json' -not -path './node_modules/*' -not -path './.git/*' | while read f; do
+            node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" 2>/dev/null && echo "OK: $f" || echo "FAIL: $f"
+          done
+
+      - name: Check all Markdown files exist and are non-empty
+        run: |
+          echo "--- Checking documentation files ---"
+          for f in README.md DGI-Framework-v1.0.md LICENSE; do
+            if [ -s "$f" ]; then
+              echo "OK: $f ($(wc -l < $f) lines)"
+            else
+              echo "WARN: $f is missing or empty"
+            fi
+          done
