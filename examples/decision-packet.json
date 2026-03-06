@@ -1,0 +1,137 @@
+{
+  "$schema": "../schemas/decision-packet.json",
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "version": "2.1",
+  "organizationId": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+  "createdAt": "2026-03-06T14:00:00Z",
+  "decision": {
+    "title": "Approve Q2 marketing budget increase",
+    "description": "Increase Q2 digital marketing spend from $500K to $750K to capture emerging market opportunity in APAC region.",
+    "category": "financial",
+    "riskLevel": "medium",
+    "status": "decided",
+    "outcome": "Approved with hedging conditions",
+    "rationale": "Council recommendation accepted with CRO hedging condition incorporated."
+  },
+  "deliberation": {
+    "sessionId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "agents": [
+      {
+        "id": "agent-cfo-001",
+        "role": "CFO",
+        "perspective": "Financial viability, ROI, budget authority"
+      },
+      {
+        "id": "agent-cro-001",
+        "role": "CRO",
+        "perspective": "Risk assessment, currency exposure, hedging requirements"
+      },
+      {
+        "id": "agent-clo-001",
+        "role": "CLO",
+        "perspective": "Regulatory compliance, data privacy, jurisdiction analysis"
+      }
+    ],
+    "rounds": [
+      {
+        "roundNumber": 1,
+        "messages": [
+          {
+            "agentId": "agent-cfo-001",
+            "content": "ROI projections show 3.2x return based on Q1 APAC traction. Budget increase is within quarterly variance authority.",
+            "timestamp": "2026-03-06T14:05:00Z",
+            "reasoning": "Q1 APAC revenue grew 47% QoQ with current spend. Incremental $250K targets Singapore and Japan markets.",
+            "confidenceScore": 0.82
+          },
+          {
+            "agentId": "agent-cro-001",
+            "content": "Market opportunity is real but currency risk in APAC is elevated. Recommend hedging 40% of incremental spend.",
+            "timestamp": "2026-03-06T14:08:00Z",
+            "reasoning": "USD/SGD volatility at 18-month high. Unhedged FX exposure on $250K exceeds 5% risk appetite threshold.",
+            "confidenceScore": 0.71
+          },
+          {
+            "agentId": "agent-clo-001",
+            "content": "No regulatory barriers identified. Data privacy compliance confirmed for Singapore (PDPA), Japan (APPI), Australia (Privacy Act).",
+            "timestamp": "2026-03-06T14:12:00Z",
+            "reasoning": "Marketing data processing agreements in place for all three jurisdictions. Cross-border transfer mechanisms confirmed.",
+            "confidenceScore": 0.90
+          }
+        ]
+      }
+    ],
+    "votes": [
+      {
+        "agentId": "agent-cfo-001",
+        "vote": "approve",
+        "rationale": "Strong ROI case within budget authority"
+      },
+      {
+        "agentId": "agent-cro-001",
+        "vote": "conditional",
+        "rationale": "Approve only with FX hedging on 40% of incremental spend",
+        "conditions": "Hedge 40% of incremental APAC spend against USD/SGD and USD/JPY"
+      },
+      {
+        "agentId": "agent-clo-001",
+        "vote": "approve",
+        "rationale": "No legal or regulatory impediments in target jurisdictions"
+      }
+    ],
+    "dissent": [
+      {
+        "agentId": "agent-cro-001",
+        "content": "Unhedged FX exposure exceeds risk appetite for emerging market spend. If hedging is not implemented, this dissent should be escalated to the board risk committee.",
+        "severity": "moderate",
+        "timestamp": "2026-03-06T14:15:00Z"
+      }
+    ]
+  },
+  "evidence": {
+    "timestamp": {
+      "internal": {
+        "serverTime": "2026-03-06T14:00:00Z",
+        "ntpSynced": true,
+        "hash": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+        "signature": "base64:internal-sig-placeholder"
+      }
+    },
+    "override": {
+      "detected": false
+    },
+    "biasAnalysis": {
+      "biasesDetected": [
+        {
+          "biasType": "anchoring",
+          "severity": "low",
+          "evidence": "CFO's 3.2x ROI figure anchored discussion; alternative scenarios not fully explored",
+          "mitigationApplied": true
+        }
+      ],
+      "rubberStampDetected": false,
+      "groupthinkDetected": false,
+      "hash": "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5"
+    },
+    "jurisdictions": [
+      {
+        "jurisdiction": "Singapore",
+        "frameworks": ["PDPA"],
+        "compliant": true,
+        "conflicts": []
+      },
+      {
+        "jurisdiction": "Japan",
+        "frameworks": ["APPI"],
+        "compliant": true,
+        "conflicts": []
+      }
+    ]
+  },
+  "integrity": {
+    "hash": "9f8e7d6c5b4a32109f8e7d6c5b4a32109f8e7d6c5b4a32109f8e7d6c5b4a3210",
+    "algorithm": "SHA-256",
+    "classicalSignature": "base64:rsa4096-sig-placeholder",
+    "signedAt": "2026-03-06T15:31:00Z",
+    "signerId": "cendia-notary-prod-001"
+  }
+}
