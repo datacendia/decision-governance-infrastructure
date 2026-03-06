@@ -1,3 +1,5 @@
+> **⚠️ SUPERSEDED** — This document is superseded by [`ISO-GAPS-IN-EXISTING-STANDARDS.md`](ISO-GAPS-IN-EXISTING-STANDARDS.md), which includes the non-duplication analysis as part of the comprehensive gap analysis. See [`INDEX.md`](INDEX.md).
+
 # Non-Duplication Proof: DGI vs. Existing Standards
 
 **Document Type:** ISO New Work Item Proposal — Non-Duplication Analysis  

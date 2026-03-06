@@ -1,3 +1,5 @@
+> **⚠️ SUPERSEDED** — This is an earlier draft. The canonical framework specification is [`../DGI-Framework-v1.0.md`](../DGI-Framework-v1.0.md). See [`INDEX.md`](INDEX.md).
+
 # Decision Governance Infrastructure (DGI)
 
 ## A Vendor-Neutral Framework for Institutional Decision Accountability

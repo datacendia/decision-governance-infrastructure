@@ -1,3 +1,5 @@
+> **⚠️ SUPERSEDED** — This document is superseded by [`ISO-GAPS-IN-EXISTING-STANDARDS.md`](ISO-GAPS-IN-EXISTING-STANDARDS.md), which covers the same gap analysis with more detail. See [`INDEX.md`](INDEX.md) for the canonical source map.
+
 # DGI Framework — Gap Analysis v1.0
 
 ## Standards Gap Analysis for Decision Governance Infrastructure

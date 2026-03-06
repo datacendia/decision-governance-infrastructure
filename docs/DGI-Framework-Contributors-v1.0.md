@@ -1,3 +1,5 @@
+> **⚠️ SUPERSEDED** — This document is superseded by [`DGI-Contributors.md`](DGI-Contributors.md), which is the canonical contributors register. See [`INDEX.md`](INDEX.md).
+
 # DGI Framework — Contributors v1.0
 
 ## Expert Support Register for ISO Standardization

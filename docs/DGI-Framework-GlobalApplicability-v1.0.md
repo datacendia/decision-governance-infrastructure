@@ -1,3 +1,5 @@
+> **⚠️ SUPERSEDED** — This document is superseded by [`GLOBAL-REGULATORY-EQUIVALENCE.md`](GLOBAL-REGULATORY-EQUIVALENCE.md), which provides the same regulatory mapping with additional detail. See [`INDEX.md`](INDEX.md).
+
 # DGI Framework — Global Applicability v1.0
 
 ## International Regulatory Equivalence for Decision Governance Infrastructure
