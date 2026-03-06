@@ -6,6 +6,15 @@
 
 > *Production reference implementation of the Datacendia Decision Governance Infrastructure (DDGI) framework.*
 
+| Field | Value |
+|-------|-------|
+| **Status** | Reference Implementation (Datacendia-branded) |
+| **Type** | Informative — implementation guide, not normative spec |
+| **Framework** | Implements DDGI v1.0 (`DGI-Framework-v1.0.md`) |
+| **Last Updated** | February 2026 |
+
+> **Note:** This document describes Datacendia's commercial implementation of DDGI. For the vendor-neutral framework specification, see [`DGI-Framework-v1.0.md`](DGI-Framework-v1.0.md). Claims about implementation status (e.g., endpoint counts, service counts) reflect the state at the version date and may drift.
+
 ---
 
 ## What is DCII?

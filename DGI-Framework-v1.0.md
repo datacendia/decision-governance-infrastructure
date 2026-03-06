@@ -17,6 +17,21 @@ This framework is published as a conceptual contribution to institutional govern
 
 ---
 
+## Document Status
+
+| Field | Value |
+|-------|-------|
+| **Status** | Candidate (self-published, not independently reviewed) |
+| **Type** | Normative framework specification |
+| **Version** | 1.0 |
+| **Last Updated** | February 2026 |
+| **Scope** | Vendor-neutral decision governance primitives |
+| **Relationship** | DCII (in `README.Implementation.md`) is the Datacendia-branded reference implementation |
+
+> **Note:** This document defines a vendor-neutral framework. Datacendia-specific implementation details, product names, and commercial features are documented separately in `README.Implementation.md`. Where Datacendia-branded language appears in this document, it serves as a reference example, not a normative requirement.
+
+---
+
 ## Standards-Style Front Matter
 
 ### Abstract
