@@ -84,6 +84,14 @@ Rainey, Stuart. *Datacendia Decision Governance Infrastructure (DDGI): A Vendor-
 
 # Framework Body
 
+### Section Type Guide
+
+| Sections | Type | Meaning |
+|----------|------|---------|
+| §1–§7 (Problem, Principles, Primitives, Lifecycle, Artifacts, Maturity, Standards Mapping) | **Normative** | Defines the DDGI framework requirements |
+| §8 (Framework Positioning, DCII Relationship) | **Informative** | Describes one reference implementation; not required for conformance |
+| §9–§13 (Extensibility, Outcomes, Certification, Authorship, Standards Submission) | **Normative** | Framework governance and extensibility rules |
+
 ---
 
 ## Executive Overview
@@ -187,9 +195,11 @@ For a detailed gap analysis demonstrating non-duplication with 14 existing stand
 
 ## 8. Framework Positioning and Reference Implementation
 
+> **Section type: Informative.** This section describes one reference implementation (DCII by Datacendia). It is not part of the normative framework specification. Other implementations may satisfy DDGI requirements independently.
+
 DDGI is vendor-neutral. Implementations may operationalize primitives through diverse architectures. Reference implementations demonstrate realization without redefining framework semantics.
 
-### 8.1 Relationship to DCII
+### 8.1 Relationship to DCII (Informative)
 
 **The Decision Crisis Immunization Infrastructure (DCII) is the reference implementation of the DDGI framework.** The relationship is analogous to how HTTP (the protocol specification) relates to NGINX or Apache (server implementations), or how SQL (the language standard) relates to PostgreSQL (a database engine).
 
