@@ -1,0 +1,88 @@
+# =============================================================================
+# Security Workflow
+# Runs secret scanning and basic specification content checks
+# =============================================================================
+
+name: Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1" # Every Monday at 6am UTC
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  secret-scan:
+    name: Secret Scan (TruffleHog)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: TruffleHog secret scan
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --only-verified
+
+  validate-content:
+    name: Specification Content Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check required files are present and non-empty
+        run: |
+          echo "--- Verifying required specification files ---"
+          EXIT=0
+          for f in SECURITY.md README.md DGI-Framework-v1.0.md LICENSE; do
+            if [ -s "$f" ]; then
+              echo "OK: $f"
+            else
+              echo "FAIL: $f is missing or empty"
+              EXIT=1
+            fi
+          done
+          exit $EXIT
+
+      - name: Validate all JSON files are well-formed
+        run: |
+          echo "--- Checking JSON files ---"
+          EXIT=0
+          while IFS= read -r f; do
+            if python3 -c "import json; json.load(open('$f'))" 2>/dev/null; then
+              echo "OK: $f"
+            else
+              echo "FAIL: $f is not valid JSON"
+              EXIT=1
+            fi
+          done < <(find . -name '*.json' \
+            -not -path './node_modules/*' \
+            -not -path './.git/*')
+          exit $EXIT
+
+      - name: Validate YAML files are well-formed
+        run: |
+          echo "--- Checking YAML files ---"
+          EXIT=0
+          while IFS= read -r f; do
+            if python3 -c "import yaml; yaml.safe_load(open('$f'))" 2>/dev/null; then
+              echo "OK: $f"
+            else
+              echo "FAIL: $f is not valid YAML"
+              EXIT=1
+            fi
+          done < <(find . \( -name '*.yml' -o -name '*.yaml' \) \
+            -not -path './.git/*')
+          exit $EXIT
