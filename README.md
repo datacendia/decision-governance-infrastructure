@@ -11,7 +11,35 @@
 
 ---
 
-## Overview
+## What is DDGI? (Plain English)
+
+**DDGI is a set of rules for how organizations should record, explain, and prove their important decisions.**
+
+Think of it like double-entry bookkeeping, but for decisions instead of money. Every important decision your organization makes should have:
+
+1. **A record of what you knew** at the time you made it
+2. **A record of what alternatives you considered** and why you chose one over the others
+3. **A record of who made the final call** and whether they overrode any AI recommendations
+4. **Tamper-proof evidence** that nobody changed the records after the fact
+5. **A way to detect** if the situation has changed since the decision was made
+
+**Why does this matter?** Because regulators, courts, and auditors are increasingly asking organizations to *prove* their AI-assisted decisions were sound. The EU AI Act, NIST AI RMF, and ISO 42001 all require governance -- but none of them tell you *how* to actually capture the evidence. DDGI fills that gap.
+
+**DDGI is not software.** It's an open specification (like HTTP or SQL). Anyone can build tools that follow it. The open-source reference implementation is **[datacendia-core](https://github.com/datacendia/datacendia-core)** (Apache 2.0).
+
+```bash
+# Try the reference implementation in 60 seconds
+git clone https://github.com/datacendia/datacendia-core.git
+cd datacendia-core
+docker compose -f docker-compose.demo.yml up -d
+# Open http://localhost:5173 -- no signup required
+```
+
+> **Live demo:** [app.datacendia.com](https://app.datacendia.com) -- try it without installing anything.
+
+---
+
+## Overview (Technical)
 
 Datacendia Decision Governance Infrastructure (DDGI) defines a vendor-neutral framework for treating institutional decisions as auditable lifecycle artifacts. The framework introduces governance primitives that enable organizations to preserve procedural integrity, decision provenance, and evidentiary continuity under regulatory, legal, or adversarial scrutiny.
 
