@@ -1,4 +1,4 @@
-# Datacendia Decision Governance Infrastructure (DDGI)
+﻿# Datacendia Decision Governance Infrastructure (DDGI)
 
 ## A Vendor-Neutral Framework for Institutional Decision Accountability
 
@@ -15,13 +15,13 @@
 
 Datacendia Decision Governance Infrastructure (DDGI) defines a vendor-neutral framework for treating institutional decisions as auditable lifecycle artifacts. The framework introduces governance primitives that enable organizations to preserve procedural integrity, decision provenance, and evidentiary continuity under regulatory, legal, or adversarial scrutiny.
 
-DDGI complements existing governance standards — including ISO 31000:2018 (Risk management), ISO 15489-1:2016 (Records management), and ISO/IEC 42001:2023 (AI management systems) — by addressing a specific gap: **no existing standard defines a structured evidence infrastructure for the decision act itself.**
+DDGI complements existing governance standards â€” including ISO 31000:2018 (Risk management), ISO 15489-1:2016 (Records management), and ISO/IEC 42001:2023 (AI management systems) â€” by addressing a specific gap: **no existing standard defines a structured evidence infrastructure for the decision act itself.**
 
 ---
 
 ## Motivation
 
-Modern institutions face increasing accountability requirements for AI-assisted decisions. The EU AI Act (Regulation (EU) 2024/1689), the NIST AI Risk Management Framework, and ISO/IEC 42001:2023 all establish governance obligations — yet none prescribe how the procedural lineage of a decision is captured, preserved, and reconstructed when challenged.
+Modern institutions face increasing accountability requirements for AI-assisted decisions. The EU AI Act (Regulation (EU) 2024/1689), the NIST AI Risk Management Framework, and ISO/IEC 42001:2023 all establish governance obligations â€” yet none prescribe how the procedural lineage of a decision is captured, preserved, and reconstructed when challenged.
 
 DDGI addresses this gap by formalizing **five governance primitives** that represent the irreducible evidentiary requirements for decision reconstruction:
 
@@ -39,13 +39,13 @@ DDGI addresses this gap by formalizing **five governance primitives** that repre
 
 The full framework is defined in:
 
-- **[DDGI Framework v1.0](DGI-Framework-v1.0.md)** — The core specification: principles, primitives, decision lifecycle architecture, evidence model, governance architecture, and standards alignment (with in-text citations to ISO standards and academic literature)
+- **[DDGI Framework v1.0](DGI-Framework-v1.0.md)** â€” The core specification: principles, primitives, decision lifecycle architecture, evidence model, governance architecture, and standards alignment (with in-text citations to ISO standards and academic literature)
 
 ### Decision Lifecycle
 
 DDGI defines a five-phase decision lifecycle, each producing governance artifacts:
 
-**Initiation → Deliberation → Resolution → Preservation → Reconstruction**
+**Initiation â†’ Deliberation â†’ Resolution â†’ Preservation â†’ Reconstruction**
 
 ![Decision Lifecycle](docs/diagrams/decision-lifecycle.svg)
 
@@ -62,8 +62,8 @@ The **Decision Crisis Immunization Infrastructure (DCII)** is the reference impl
 | | DDGI (This Framework) | DCII (Reference Implementation) |
 |---|---|---|
 | **Nature** | Vendor-neutral specification | Production implementation |
-| **Primitives** | 5 core (A–E) | 9 total (P1–P9), extending DDGI with 4 advanced capabilities |
-| **Scoring** | Maturity index (DDGMI, 5 levels) | IISS™ (0–1000 quantitative metric) |
+| **Primitives** | 5 core (Aâ€“E) | 9 total (P1â€“P9), extending DDGI with 4 advanced capabilities |
+| **Scoring** | Maturity index (DDGMI, 5 levels) | IISSâ„¢ (0â€“1000 quantitative metric) |
 | **Technology** | Implementation-agnostic | PostgreSQL, REST API, cryptographic signing |
 | **Audience** | Standards bodies, governance architects | Engineering teams, compliance implementers |
 
@@ -73,10 +73,10 @@ For implementation details, see [README.Implementation.md](README.Implementation
 
 The open-source implementation of DDGI/DCII is available at **[datacendia-core](https://github.com/datacendia/datacendia-core)** (Apache 2.0). It includes:
 
-- **The Council** — Multi-agent deliberation engine with configurable agent panels
-- **Immutable Audit Ledger** — Merkle tree integrity for all decisions
-- **30 Industry Verticals** — Domain-specific agents, compliance frameworks, and decision schemas
-- **Sovereign-First Architecture** — Runs fully air-gapped with local LLM inference
+- **The Council** â€” Multi-agent deliberation engine with configurable agent panels
+- **Immutable Audit Ledger** â€” Merkle tree integrity for all decisions
+- **30 Industry Verticals** â€” Domain-specific agents, compliance frameworks, and decision schemas
+- **Sovereign-First Architecture** â€” Runs fully air-gapped with local LLM inference
 
 ```bash
 # Try it in 60 seconds
@@ -90,7 +90,7 @@ docker compose -f docker-compose.demo.yml up -d
 
 ## Alignment with Existing Standards
 
-DDGI is designed to complement — not replace — existing governance structures:
+DDGI is designed to complement â€” not replace â€” existing governance structures:
 
 | Standard | DDGI Relationship |
 |----------|------------------|
@@ -116,12 +116,12 @@ The following table positions DDGI relative to comparable open governance framew
 | **Formal primitive model** | Yes (5 primitives) | Yes (vocabulary terms) | Yes (4 functions) | Yes (controls annex) | Varies |
 | **Lifecycle architecture** | Yes (5 phases) | No | Partial | Partial | No |
 | **Vendor-neutral** | Yes | Yes | Yes | Yes | Varies |
-| **Quantitative scoring** | Yes (DDGMI / IISS™) | No | No | No (binary certification) | Varies |
+| **Quantitative scoring** | Yes (DDGMI / IISSâ„¢) | No | No | No (binary certification) | Varies |
 | **Evidence reconstruction** | Yes (core capability) | No | No | No | No |
 | **Standards submission track** | ISO/IEC JTC 1/SC 42 | W3C Community Group | NIST publication | Published ISO standard | N/A |
-| **Complementary to DDGI** | — | Yes | Yes | Yes | Possible |
+| **Complementary to DDGI** | â€” | Yes | Yes | Yes | Possible |
 
-**Key differentiator:** DDGI is the only framework that defines decision evidence as a first-class artifact with a structured lifecycle, measurable primitives, and reconstruction capability. Adjacent standards govern risk, privacy, or AI systems — but not the decision act itself.
+**Key differentiator:** DDGI is the only framework that defines decision evidence as a first-class artifact with a structured lifecycle, measurable primitives, and reconstruction capability. Adjacent standards govern risk, privacy, or AI systems â€” but not the decision act itself.
 
 ---
 
@@ -145,38 +145,38 @@ DDGI is being prepared for submission to **ISO/IEC JTC 1/SC 42** (Artificial Int
 ## Repository Contents
 
 ```
-DGI-Framework-v1.0.md                — Core DDGI framework specification (this repository's primary document)
-README.md                            — Standards / academic overview (this file)
-README.Implementation.md             — DCII implementation details, API, and deployment
+DGI-Framework-v1.0.md                â€” Core DDGI framework specification (this repository's primary document)
+README.md                            â€” Standards / academic overview (this file)
+README.Implementation.md             â€” DCII implementation details, API, and deployment
 
 /docs
-  DCII_Framework_v2.1.md             — DCII white paper (reference implementation specification)
-  DGI_Framework_v2.md                — DDGI v2 extended specification
-  DGI-TR-v1.0.md                     — DDGI Technical Report v1.0
-  primitive-specifications.md        — Detailed specification for each primitive
-  compliance-mapping.md              — Regulation-to-primitive matrix
-  ISO-GAPS-IN-EXISTING-STANDARDS.md  — Gap analysis vs. 14 ISO standards
-  GLOBAL-REGULATORY-EQUIVALENCE.md   — 23-jurisdiction applicability mapping
-  NON-DUPLICATION-PROOF.md           — Non-duplication analysis for ISO NP
-  SCOPE-BOUNDARIES.md                — Scope boundary definitions
-  DGI-Contributors.md                — DDGI expert endorsement register
-  standards-body-engagement.md       — ISO national body engagement strategy
+  DCII_Framework_v2.1.md             â€” DCII white paper (reference implementation specification)
+  DGI_Framework_v2.md                â€” DDGI v2 extended specification
+  DGI-TR-v1.0.md                     â€” DDGI Technical Report v1.0
+  primitive-specifications.md        â€” Detailed specification for each primitive
+  compliance-mapping.md              â€” Regulation-to-primitive matrix
+  ISO-GAPS-IN-EXISTING-STANDARDS.md  â€” Gap analysis vs. 14 ISO standards
+  GLOBAL-REGULATORY-EQUIVALENCE.md   â€” 23-jurisdiction applicability mapping
+  NON-DUPLICATION-PROOF.md           â€” Non-duplication analysis for ISO NP
+  SCOPE-BOUNDARIES.md                â€” Scope boundary definitions
+  DGI-Contributors.md                â€” DDGI expert endorsement register
+  standards-body-engagement.md       â€” ISO national body engagement strategy
   /diagrams
-    decision-lifecycle.svg           — Decision lifecycle diagram
-    governance-architecture.svg      — Governance architecture diagram
+    decision-lifecycle.svg           â€” Decision lifecycle diagram
+    governance-architecture.svg      â€” Governance architecture diagram
 
 /schemas
-  decision-packet.json               — JSON Schema for Decision Packets
-  regulators-receipt.json            — JSON Schema for Regulator's Receipt™
-  iiss-scoring.json                  — JSON Schema for IISS scoring
+  decision-packet.json               â€” JSON Schema for Decision Packets
+  regulators-receipt.json            â€” JSON Schema for Regulator's Receiptâ„¢
+  iiss-scoring.json                  â€” JSON Schema for IISS scoring
 
 /examples
-  sample-decision.json               — Example decision packet
-  integration-guide.md               — Step-by-step integration guide
+  sample-decision.json               â€” Example decision packet
+  integration-guide.md               â€” Step-by-step integration guide
 
 /api
-  api-spec.yaml                      — OpenAPI 3.0 specification (59 endpoints)
-  webhook-spec.md                    — Webhook event documentation
+  api-spec.yaml                      â€” OpenAPI 3.0 specification (59 endpoints)
+  webhook-spec.md                    â€” Webhook event documentation
 ```
 
 ---
@@ -217,4 +217,5 @@ You are free to share and adapt this material for any purpose, including commerc
 
 ---
 
-**Datacendia, LLC** — *Datacendia Decision Governance Infrastructure (DDGI)*
+**Datacendia, LLC** â€” *Datacendia Decision Governance Infrastructure (DDGI)*
+
